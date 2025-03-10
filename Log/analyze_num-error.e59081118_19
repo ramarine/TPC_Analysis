@@ -1,0 +1,3 @@
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=59081137.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: cpu244: task 0: Out Of Memory
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=59081137.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

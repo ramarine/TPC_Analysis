@@ -1,0 +1,370 @@
+// This works with Configuration_17, 18
+// Plots many figures investigating the time distributions of signals in events.
+
+//updated at 14September2022
+//this is a newer version than the one used in the SharedScripts Folder
+#include "TRandom.h"
+#include "TF1.h"
+#include "TH1D.h"
+#include "TH2D.h"
+#include "TH3D.h"
+#include "TProfile.h"
+#include "TCanvas.h"
+#include "TGraph.h"
+#include "TMath.h"
+#include <vector>
+#include <math.h>       /* pow */
+#include <iostream>
+
+using namespace std::chrono;
+using namespace std;
+
+
+double GetDivError(double nom, double denom, double nom_err, double denom_err){
+  return TMath::Sqrt(((nom_err*nom_err) / (denom*denom) ) + (nom*nom * denom_err*denom_err)/(denom*denom*denom*denom));
+}
+
+
+std::vector<double> AddWf(std::vector<double> *wf = NULL, std::vector<double> *rms = NULL,std::vector<double> wf_init = std::vector<double> (100000, 0), double NSigmas = 4.0 ){
+  
+  for (int i(0); i < wf->size(); i++){
+    if (wf->at(i) < -NSigmas *rms->at(i))
+      wf_init.at(i) += wf->at(i);
+  }
+
+  return wf_init;
+} 
+
+
+void PlotMultiWF(std::vector<int> idx,std::vector<TH1*> hist ,const char * file_name){
+
+  TCanvas *c1 = new TCanvas("c1","sub data",200,10,700,500);
+
+  const char * file_ = "h1.pdf";
+  string first = std::string(file_)+std::string("(");
+  string last =std::string(file_) +std::string(")");
+  string mid = std::string(file_);
+  
+
+  
+  for (int i(0); i < idx.size(); i++){
+    //char first = file_name.c_str+"(";
+    //char last = file_name.c_str+")";
+    if (i==0){
+      hist[i]->Draw();
+      c1->Print(first.c_str(),"pdf0");
+    }else if (i == idx.size() -1 ){
+      hist[i]->Draw();
+      c1->Print(last.c_str(),"pdf2");
+    }else{
+      hist[i]->Draw();
+      c1->Print(file_name,"pdf1");
+    }
+  }
+
+
+
+
+}
+
+void S1ReflTimeAna(){
+
+  TH1F * hFirsts_dif = new TH1F("hFirst", "Time Difference Between Firsts Signals in Drift and Extended Region ;Time Difference [us]", 60, 0, 80);
+  TH1F * hFirst_a = new TH1F("hFirst_a", "Time distribution of first hit in drift region;Time Difference [us];", 60, 0, 40);
+  TH1F * hLasts = new TH1F("hLasts", "Time Difference Between Last Signals in Drift and Extended Region ;Time Difference [us]", 60, 0, 80);
+  TH1F * hWidth_a = new TH1F("hWidth_a","Drift Region ; Width [us];"  , 100, 0, 80);
+  TH1F * hWidth_b = new TH1F("hWidth_b","Extended Region ; Width [us];"   ,100, 0, 80);
+  
+  TH2F * hWidth_b_width_a = new TH2F("hFirsts_width_b","3. Time width in ext vs the time width in drift region;Time Width of Signal in the Drift [us]; Time Width of Signal in the Extended [us]",   100, 0, 40,60, 0, 40);
+  
+  TH2F * hFirsts_width_a = new TH2F("hFirsts_width_a","4. Time difference between the firsts vs the time width in drift region;Time Width of Signal in the Drift [us]; Time Diff Between Firsts [us]",   100, 0, 80,60, 0, 80);
+
+  TH2F * hFirsts_Start_a = new TH2F("hFirsts_Start_a","4. Time difference between the firsts vs the time width in drift region; Start of Signal [us]; Time Diff Between Firsts [us]",   100, 0, 80,60, 0, 80);
+  TH2F * hFirsts_Start_b = new TH2F("hFirsts_Start_b","4. Time difference between the firsts vs the time width in drift region; Start of Signal [us]; Time Diff Between Firsts [us]",   100, 0, 80,60, 0, 80);
+  TH2F *h_Start_b_Start_a = new TH2F("h_Start_b_Start_a","4. Time difference between the firsts vs the time width in drift region; Start of Signal [us]; Start of signal [us]",   50, 0, 40,50, 40, 80);
+
+  TH1F *hWF_sum = new TH1F ("hWF_sum"," The sum of ", 100000, -20,80); 
+  //  double const R(50.), gain(1e7), e_ch(1.6e-19), qe(0.25), col_eff(0.8), dt(1e-9);//gain = 1e7 for 1650V (Hamamtsu R6427)
+  //double con_fact = - dt /(R* gain *e_ch*qe*col_eff);
+  double con_fact = -0.05;
+  std::vector<double> key_idx;
+  std::vector<double> key_Intg;
+  std::vector<double> key_min_a;
+
+  // double const R(50.), gain(1e7), e_ch(1.6e-19), qe(0.25), col_eff(0.8), dt(1e-9);//gain = 1e7 for 1650V (Hamamtsu R6427)
+  // double con_fact = - dt /(R* gain *e_ch*qe*col_eff);
+
+  auto start = high_resolution_clock::now();
+
+  std::vector<TString> path_store;
+
+
+  path_store.push_back("../../../Swan_TTrees/Configuration_18/C3500_LSF1480_ThGUp1400_ThGDnGND_PMesh1400_TPC1650/");
+
+
+  TString NSigmas_st = "4.0";
+  double NSigmas = 6.0;
+  std::vector<int> sig_evt;
+
+  std::unique_ptr<TFile> myFile(TFile::Open(path_store.at(0)+"WF_output_5000_"+NSigmas_st+"RMS.root"));
+  auto tree = myFile->Get<TTree>("T");
+  std::vector<int> Spark_idx;
+  std::vector<int> BadPed_idx;
+  std::vector<int> Signal_idx;
+  std::vector<int> Empty_idx;
+  std::vector<double> intg_bef;
+  std::vector<double> intg_aft;
+  std::vector<double> intg_a;
+  std::vector<double> intg_b;
+  std::vector<double> dummy_intg(4,0);
+
+
+
+  // std::vector<std::vector<double>> wf_store;
+  // std::vector<std::vector<double>> rms_store;
+
+  std::vector<double> *wf = new std::vector<double>;
+  std::vector<double> *rms = new std::vector<double>;
+  std::vector<int> MinIdxPerEvt;
+  std::vector<int> signal_evt_idx;
+  std::vector<int> spark_evt_idx;
+
+  int trig_idx, nentries;
+  Double_t dt, t0;
+  Int_t  Signal, Spark;
+
+  tree->SetBranchAddress("WF", &wf);
+  tree->SetBranchAddress("RMS", &rms);
+  tree->SetBranchAddress("dt", &dt);
+  tree->SetBranchAddress("t0", &t0);
+  tree->SetBranchAddress("trig_idx", &trig_idx);
+  tree->SetBranchAddress("nentries", &nentries);
+  tree->SetBranchAddress("Signal", &Signal);
+  tree->SetBranchAddress("Spark", &Spark);
+
+  tree->GetEntry(0);
+  TH1F *hWF = new TH1F ("hWF","", nentries, -20,80); 
+
+  std::vector<double> wf_sum(nentries, 0);
+
+  const double edgeremoval = 2.e-6;
+  const double drift_time = 39.e-6;
+  const double extended_drift_time = 45.e-6;
+  int const TrigTimeIdx = trig_idx + int(edgeremoval/dt);
+  int const a_idx = trig_idx + int(drift_time/dt) - int(edgeremoval/dt);
+  int const b_idx = trig_idx + int(drift_time/dt) + int(edgeremoval/dt);
+  int const ab_idx = trig_idx + int(extended_drift_time/dt)-int(edgeremoval/dt);
+
+  int first_a_cut = 3;//us the time after which a first hit can be observed
+  int last_a_cut = 35;// the maximal time for a last hit 
+  int first_b_cut = 40; // the min cut after which a first hit can be observed
+  
+
+  TBranch *BSignal = tree->GetBranch("Signal"); 
+  TBranch *BSpark = tree->GetBranch("Spark"); 
+
+  std::vector<int> dummy_a;
+  std::vector<int> dummy_b;
+  
+  std::vector<std::vector<int>> integral_500_signal_a;// this is a container keeping all the entries higher than the treshold
+  std::vector<std::vector<int>> integral_500_signal_b;
+
+  
+  //cout << tree->GetBranch("Signal")->GetEntries() << endl;
+  //int tot_evt =100;
+  //  int tot_evt = tree->GetBranch("Signal")->GetEntries();
+  int tot_evt = tree->GetBranch("Spark")->GetEntries();
+  
+  //  cout << TrigTimeIdx << " " << a_idx << " " << ab_idx << endl;
+  TCanvas *cEventDisplay = new TCanvas("event_display","dum_display",0,0,800,600);
+  const char * file_name = "h1.pdf";
+  int wf_count =0;
+  
+  
+  string first = std::string(file_name)+std::string("(");
+  string last =std::string(file_name) +std::string(")");
+  string mid = std::string(file_name);
+
+  for (int i(0); i < tot_evt; i++){       
+    tree -> GetEntry(i);
+    signal_evt_idx.push_back(Spark);
+    //cout << "Get Entry " << Signal<< endl;
+  } 
+  
+  // The next two for loop go through all the signal events as defined in the TTree and select from the  signal WF all the hits higher than NSigma * rms. all the indices of these hits are stored in some temporary vectors. Hits are stored from two different regions: drift and extended. As in this analysis we are interested only in events containing reflection we will only store the vectors having signal both in the drift and extended version. 
+  
+  for (int i(0); i < signal_evt_idx.size(); i++ ){
+    int incr_a = 0;
+    int incr_b = 0;
+    tree->GetEntry(signal_evt_idx.at(i));
+    
+    for (int j(0); j< wf->size(); j++){
+      hWF->SetBinContent(j+1,wf->at(j));
+      if(TrigTimeIdx < j && j < a_idx){
+	if(wf->at(j) < -NSigmas * rms->at(j)){
+	  //store signal index in some vector;
+	  
+	  dummy_a.push_back(j);
+	  incr_a++;
+	}
+      }else if (b_idx <= j && j < ab_idx){
+	if(wf->at(j) < -NSigmas * rms->at(j)){	  
+	  dummy_b.push_back(j);
+	  incr_b++;
+	}
+      }
+      
+    }
+    //hWF->Draw();
+    // bool print == true; 
+    
+
+    if (dummy_a.size() != 0 && dummy_b.size() !=0 ){
+      integral_500_signal_a.push_back(dummy_a);
+      integral_500_signal_b.push_back(dummy_b);
+    } else {
+      integral_500_signal_a.push_back({});
+      integral_500_signal_b.push_back({});
+    } 
+    dummy_a.clear();
+    dummy_b.clear();
+  }
+  
+  std::vector<double> time;
+  cout << " nentries " << nentries << " t0 " << t0 << " dt " << dt <<endl; 
+  for (int i(t0); i < nentries; i++){
+    time.push_back(-20e-6 + i*dt);
+    //cout << "time " << time.at(i)<<endl;
+  }
+  
+  
+  cout << "debug " << endl;
+  
+  double avg_a(0), avg_b(0), avg_a_ct(0), avg_b_ct(0), firsts(0), last_a(0), last_b(0), first_a(0),first_b(0), lasts(0), width_a(0), width_b(0), amp_A_First_a(0), amp_B_First_a(0), amp_C_First_a(0), amp_D_First_a(0.);
+  
+  cout << integral_500_signal_a.size() << " asdasdad " << endl;
+  
+  int both_side_hit(0);
+  
+  for (int i(0); i < integral_500_signal_a.size(); i++){
+    //cout << integral_500_signal_a[i].size()<< endl;
+    if(integral_500_signal_a[i].size() == 0) continue;
+    both_side_hit++;
+    //cout << " i " << i<< endl;
+    avg_a = 0; avg_b = 0; avg_a_ct = 0; avg_b_ct = 0;
+    first_a = time.at(integral_500_signal_a[i][0])*1e6;
+    first_b = time.at(integral_500_signal_b[i][0])*1e6;
+    last_a = time.at(integral_500_signal_a[i].back())*1e6;
+    last_b = time.at(integral_500_signal_b[i].back())*1e6;
+    firsts =- TMath::Abs(time.at(integral_500_signal_a[i][0]))*1e6 + TMath::Abs(time.at(integral_500_signal_b[i][0]))*1e6;
+    lasts =- TMath::Abs(time.at(integral_500_signal_a[i].back()))*1e6 + TMath::Abs(time.at(integral_500_signal_b[i].back()))*1e6;
+    width_a = TMath::Abs(time.at(integral_500_signal_a[i].back()))*1e6 - TMath::Abs(time.at(integral_500_signal_a[i][0]))*1e6;
+    width_b = TMath::Abs(time.at(integral_500_signal_b[i].back()))*1e6 - TMath::Abs(time.at(integral_500_signal_b[i][0]))*1e6;
+    
+    //cout << i << " firsts " << firsts <<endl;
+    //if (width_a > 26) continue;
+
+
+    //    if( time.at(integral_500_signal_a[i][0])*1e6 > 3. && time.at(integral_500_signal_a[i].back())*1e6 < 35. && time.at(integral_500_signal_b[i][0])*1e6 > 40. && width_a > width_b*1.1){
+    if ( first_a_cut < first_a && last_a < last_a_cut  && first_b > 30 ) {
+      hFirsts_dif->Fill(firsts);
+      hWidth_a->Fill(width_a);
+      hWidth_b->Fill(width_b);
+      hWidth_b_width_a->Fill(width_a, width_b);
+      hLasts->Fill(lasts);
+      hFirsts_width_a->Fill( width_a ,firsts);
+      
+      hFirsts_Start_a->Fill( time.at(integral_500_signal_a[i][0])*1e6 ,firsts);
+      hFirsts_Start_b->Fill( time.at(integral_500_signal_b[i][0])*1e6 ,firsts);
+      h_Start_b_Start_a->Fill( time.at(integral_500_signal_a[i][0])*1e6 ,time.at(integral_500_signal_b[i][0])*1e6 );
+      hFirst_a->Fill(first_a);
+      
+      tree->GetEntry(i);
+      cout << "signal " << Signal << endl;
+      tree->GetEntry(Signal);
+      wf_sum =  AddWf(wf,rms,wf_sum,NSigmas);
+      bool print =  false;
+      int No_waveforms = 3;
+      
+      //if (print == true && wf_count< No_waveforms){
+      
+      // 	tree->GetEntry(i);
+      // 	cout << "signal " << Signal << endl;
+      // 	tree->GetEntry(Signal);
+      // 	for (int j(0); j< wf->size(); j++){
+      // 	  hWF->SetBinContent(j+1,wf->at(j));
+      // 	}
+      // 	hWF->Draw();
+      // 	wf_count++;
+	
+    
+      // 	//if (wf_count == 0)    cEventDisplay->Print(first.c_str(),"pdf0");
+      // 	//else if (wf_count == No_waveforms -1)    cEventDisplay->Print(last.c_str(),"pdf2");
+      // 	//else cEventDisplay->Print(mid.c_str(),"pdf1");
+      // }
+      
+      
+    }
+    
+
+
+  }
+
+  cout << " The total events with hit along the real drift " << integral_500_signal_a.size() << endl;
+  cout << " The total events with hit in both sides " << both_side_hit << endl;
+  cout << " The total events with hit in both sides passing cut " << hFirsts_dif->GetEntries() << endl;
+ 
+  for (int i(0); i < nentries; i++) {
+    hWF_sum->SetBinContent(i+1, wf_sum.at(i));
+    //cout << "wf_sum.at = " << wf_sum.at(i) << endl;
+} 
+  cout <<  " Number of events containing S1 Reflexion  " << integral_500_signal_a.size()  << endl;
+  // TCanvas *cWF_sum = new TCanvas("cWF_sum","cWF_sum",0,0,800,600);
+  hWF_sum->Draw();
+
+  
+  
+  TFile *outPlots =  TFile::Open(Form("Results_S1ReflAna_%d.root", tot_evt), "recreate");  
+  hWF_sum->Write();
+
+  TCanvas *cMisc_2 = new TCanvas("cMisc_2","Different Plots",1200,1200);
+  cMisc_2->Divide(2,2);
+  cMisc_2->cd(1);
+  hFirsts_dif->Draw();
+  cMisc_2->cd(2);
+  hWidth_a->Draw();
+  cMisc_2->cd(3);
+  hWidth_b->Draw();
+  cMisc_2->cd(4);
+  hFirsts_width_a->Draw("colz");
+  cMisc_2->Write();
+
+  TCanvas *cMisc_1= new TCanvas("cMisc_1","Different Plots",1200,1200);
+  cMisc_1->Divide(2,2);
+  cMisc_1->cd(1);
+  hWidth_b_width_a->Draw("colz");
+  cMisc_1->cd(2);
+  hFirsts_width_a->Draw("colz");
+  cMisc_1->cd(3);
+  hLasts->Draw("colz");
+  cMisc_1->Write();
+
+  TCanvas *cStart= new TCanvas("cStart","Different Plots",1200,1200);
+  cStart->Divide(2,2);
+  cStart->cd(1);
+  hFirsts_Start_a->Draw("colz");
+  cStart->cd(2);
+  hFirsts_Start_b->Draw("colz");
+  cStart->cd(3);
+  h_Start_b_Start_a->Draw("colz");
+  cStart->cd(4);
+  hFirst_a->Draw();
+  cStart->Update();
+  cStart->Write();
+
+  outPlots->Close();
+
+    
+
+}
+

@@ -1,0 +1,100 @@
+SysError in <TFile::TFile>: could not delete /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg700_TPC1650_p2_0/WF_output_50_4.0RMS.root (errno: 2) No such file or directory
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (single) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (single_pos) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (hHowManySignalEvt) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (hHowManyEmptyEvt) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (hHowManySparkEvt) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (hHowManyBadPedEvt) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object () has not been written.
+#0  0x00002ac2fe9c560c in waitpid () from /lib64/libc.so.6
+#1  0x00002ac2fe942f62 in do_system () from /lib64/libc.so.6
+#2  0x00002ac2fe015c4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002ac2ffe4cc18 in cling::MultiplexInterpreterCallbacks::PrintStackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#4  0x00002ac2ffe414ec in cling_runtime_internal_throwIfInvalidPointer () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#5  0x00002ac30379f9e4 in ?? ()
+#6  0x0000000000000031 in ?? ()
+#7  0x0000000003578e10 in ?? ()
+#8  0x0000000000000000 in ?? ()
+Error in <HandleInterpreterException>: Trying to dereference null pointer or trying to call routine taking non-null arguments.
+Execution of your code was aborted.
+In file included from input_line_9:1:
+/home/amarinei/Year1_PhD/TPC/Comissioning/TPC_Ana/LeCroyPMT_Ana/SharedScripts/BinaryAna/ScriptsConfigP25/NegScan/GeneralAna_v7.C:845:3: warning: null passed to a callee that requires a non-null argument [-Wnonnull]
+  WF_output->Close();
+  ^~~~~~~~~
+SysError in <TFile::TFile>: could not delete /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg600_TPC1650_p2_0/WF_output_50_4.0RMS.root (errno: 2) No such file or directory
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (single) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (single_pos) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (hHowManySignalEvt) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (hHowManyEmptyEvt) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (hHowManySparkEvt) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (hHowManyBadPedEvt) has not been written.
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object () has not been written.
+#0  0x00002abe709a460c in waitpid () from /lib64/libc.so.6
+#1  0x00002abe70921f62 in do_system () from /lib64/libc.so.6
+#2  0x00002abe6fff4c4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002abe71e2bc18 in cling::MultiplexInterpreterCallbacks::PrintStackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#4  0x00002abe71e204ec in cling_runtime_internal_throwIfInvalidPointer () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#5  0x00002abe7577e9e4 in ?? ()
+#6  0x0000000000000031 in ?? ()
+#7  0x0000000004b56e30 in ?? ()
+#8  0x0000000000000000 in ?? ()
+Error in <HandleInterpreterException>: Trying to dereference null pointer or trying to call routine taking non-null arguments.
+Execution of your code was aborted.
+In file included from input_line_9:1:
+/home/amarinei/Year1_PhD/TPC/Comissioning/TPC_Ana/LeCroyPMT_Ana/SharedScripts/BinaryAna/ScriptsConfigP25/NegScan/GeneralAna_v7.C:845:3: warning: null passed to a callee that requires a non-null argument [-Wnonnull]
+  WF_output->Close();
+  ^~~~~~~~~
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002b4c9900960c in waitpid () from /lib64/libc.so.6
+#1  0x00002b4c98f86f62 in do_system () from /lib64/libc.so.6
+#2  0x00002b4c98659c4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002b4c98657255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002b4c98fb3180 in fread () from /lib64/libc.so.6
+#6  0x00002b4c9dddd7f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x00002b4cb1401660 in _GLOBAL_OFFSET_TABLE_ () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libTree.so
+#9  0x00000000058d82e8 in ?? ()
+#10 0x00000000058d8328 in ?? ()
+#11 0x00000000058d8380 in ?? ()
+#12 0x00000000058d8398 in ?? ()
+#13 0x00000000058d8190 in ?? ()
+#14 0x00002b4c98127e9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#15 0x00002b4c9812f9ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#16 0x00007fff6ae0a4c8 in ?? ()
+#17 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002b4c98fb3180 in fread () from /lib64/libc.so.6
+#6  0x00002b4c9dddd7f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x00002b4cb1401660 in _GLOBAL_OFFSET_TABLE_ () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libTree.so
+#9  0x00000000058d82e8 in ?? ()
+#10 0x00000000058d8328 in ?? ()
+#11 0x00000000058d8380 in ?? ()
+#12 0x00000000058d8398 in ?? ()
+#13 0x00000000058d8190 in ?? ()
+#14 0x00002b4c98127e9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#15 0x00002b4c9812f9ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#16 0x00007fff6ae0a4c8 in ?? ()
+#17 0x0000000000000000 in ?? ()
+===========================================================
+
+
+srun: error: cpu237: task 0: Exited with exit code 129

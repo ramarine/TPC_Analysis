@@ -1,0 +1,146 @@
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002b817092d60c in waitpid () from /lib64/libc.so.6
+#1  0x00002b81708aaf62 in do_system () from /lib64/libc.so.6
+#2  0x00002b816ff7dc4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002b816ff7b255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002b81708d7180 in fread () from /lib64/libc.so.6
+#6  0x00002b81757017f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x0000000000000050 in ?? ()
+#9  0x00002b81755a6fa8 in vtable for TClingDeclInfo () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#10 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002b81708d7180 in fread () from /lib64/libc.so.6
+#6  0x00002b81757017f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x0000000000000050 in ?? ()
+#9  0x00002b81755a6fa8 in vtable for TClingDeclInfo () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#10 0x0000000000000000 in ?? ()
+===========================================================
+
+
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002b530d16060c in waitpid () from /lib64/libc.so.6
+#1  0x00002b530d0ddf62 in do_system () from /lib64/libc.so.6
+#2  0x00002b530c7b0c4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002b530c7ae255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002b530d10a180 in fread () from /lib64/libc.so.6
+#6  0x00002b5311f347f3 in ?? ()
+#7  0x0000000004de05a8 in ?? ()
+#8  0x0000000004de05e8 in ?? ()
+#9  0x0000000004de0640 in ?? ()
+#10 0x0000000004de0658 in ?? ()
+#11 0x0000000004de0450 in ?? ()
+#12 0x00002b530c27ee9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002b530c2869ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007ffeb1549f18 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002b530d10a180 in fread () from /lib64/libc.so.6
+#6  0x00002b5311f347f3 in ?? ()
+#7  0x0000000004de05a8 in ?? ()
+#8  0x0000000004de05e8 in ?? ()
+#9  0x0000000004de0640 in ?? ()
+#10 0x0000000004de0658 in ?? ()
+#11 0x0000000004de0450 in ?? ()
+#12 0x00002b530c27ee9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002b530c2869ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007ffeb1549f18 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002b37ff81c60c in waitpid () from /lib64/libc.so.6
+#1  0x00002b37ff799f62 in do_system () from /lib64/libc.so.6
+#2  0x00002b37fee6cc4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002b37fee6a255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002b37ff7c6180 in fread () from /lib64/libc.so.6
+#6  0x00002b38045eb7f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x0000000000000050 in ?? ()
+#9  0x00002b3804495fa8 in vtable for TClingDeclInfo () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#10 0x00002b3817c14660 in _GLOBAL_OFFSET_TABLE_ () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libTree.so
+#11 0x0000000005b45418 in ?? ()
+#12 0x0000000005b45458 in ?? ()
+#13 0x0000000005b454b0 in ?? ()
+#14 0x0000000005b454c8 in ?? ()
+#15 0x0000000005b452c0 in ?? ()
+#16 0x00002b37fe93ae9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#17 0x00002b37fe9429ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#18 0x00007fff643e0b38 in ?? ()
+#19 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002b37ff7c6180 in fread () from /lib64/libc.so.6
+#6  0x00002b38045eb7f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x0000000000000050 in ?? ()
+#9  0x00002b3804495fa8 in vtable for TClingDeclInfo () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#10 0x00002b3817c14660 in _GLOBAL_OFFSET_TABLE_ () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libTree.so
+#11 0x0000000005b45418 in ?? ()
+#12 0x0000000005b45458 in ?? ()
+#13 0x0000000005b454b0 in ?? ()
+#14 0x0000000005b454c8 in ?? ()
+#15 0x0000000005b452c0 in ?? ()
+#16 0x00002b37fe93ae9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#17 0x00002b37fe9429ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#18 0x00007fff643e0b38 in ?? ()
+#19 0x0000000000000000 in ?? ()
+===========================================================
+
+
+srun: error: cpu182: task 0: Exited with exit code 129

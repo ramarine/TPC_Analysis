@@ -1,0 +1,4 @@
+#!/bin/bash 
+while read p; do
+  root -b -q -l 'GeneralAna_v8.C("'$p'")'
+done < filenames.txt

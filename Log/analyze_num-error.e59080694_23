@@ -1,0 +1,2 @@
+analyze_num.sh: line 7: root: command not found
+srun: error: cpu036: task 0: Exited with exit code 127

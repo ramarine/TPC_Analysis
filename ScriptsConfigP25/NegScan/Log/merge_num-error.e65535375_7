@@ -1,0 +1,50 @@
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002b13b84b160c in waitpid () from /lib64/libc.so.6
+#1  0x00002b13b842ef62 in do_system () from /lib64/libc.so.6
+#2  0x00002b13b7b01c4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002b13b7aff255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002b13b845b180 in fread () from /lib64/libc.so.6
+#6  0x00002b13bd2857f3 in ?? ()
+#7  0x0000000004d1de28 in ?? ()
+#8  0x0000000004d1de68 in ?? ()
+#9  0x0000000004d1dec0 in ?? ()
+#10 0x0000000004d1ded8 in ?? ()
+#11 0x0000000004d1dcd0 in ?? ()
+#12 0x00002b13b75cfe9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002b13b75d79ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007ffd1531ce18 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002b13b845b180 in fread () from /lib64/libc.so.6
+#6  0x00002b13bd2857f3 in ?? ()
+#7  0x0000000004d1de28 in ?? ()
+#8  0x0000000004d1de68 in ?? ()
+#9  0x0000000004d1dec0 in ?? ()
+#10 0x0000000004d1ded8 in ?? ()
+#11 0x0000000004d1dcd0 in ?? ()
+#12 0x00002b13b75cfe9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002b13b75d79ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007ffd1531ce18 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+srun: error: cpu054: task 0: Exited with exit code 129

@@ -1,0 +1,4 @@
+SysError in <TFile::TFile>: could not delete /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh0_TPC1650_p2_0_ii/WF_output_5000_4.0RMS.root (errno: 2) No such file or directory
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=66269091.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: cpu188: task 0: Out Of Memory
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=66269091.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

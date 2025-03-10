@@ -1,0 +1,2 @@
+slurmstepd: error: *** STEP 65475662.0 ON cpu051 CANCELLED AT 2023-02-16T15:21:00 ***
+slurmstepd: error: *** JOB 65475662 ON cpu051 CANCELLED AT 2023-02-16T15:21:00 ***

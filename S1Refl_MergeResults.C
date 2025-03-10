@@ -1,0 +1,64 @@
+#include <TROOT.h>
+#include <TH2D.h>
+#include <TMath.h>
+#include <TRandom.h>
+#include <TRandom3.h>
+#include <stdlib.h>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <TFile.h>
+#include <stdio.h>      /* printf */
+#include <math.h>       /* pow */
+#include <iostream>
+
+// I want a function which takes h1
+
+using namespace std;
+void S1Refl_MergeResults(){
+
+
+  //defining Stacks
+
+  double rebin_no = 5000;
+
+
+  double const R(50.), gain(1e7), e_ch(1.6e-19), qe(0.25), col_eff(0.8), dt(1e-9);//gain = 1e7 for 1650V (Hamamtsu R6427)
+  double con_fact = - dt /(R* gain *e_ch*qe*col_eff);
+
+  TString NSigmas = "4.0";
+  std::vector<TString> path_store;
+
+  
+  path_store.push_back("Results_S1ReflAna_2020_a.root");
+  path_store.push_back("Results_S1ReflAna_2020_b.root");
+  //  path_store.push_back("Results_S1ReflAna_2016.root");
+  
+  //
+  std::vector<TFile*>  file_store;
+  std::vector<TH1D*>  hWFsumFlat_ind_st;
+  for (int i(0); i < path_store.size(); i++){
+    
+    file_store.push_back(TFile::Open(path_store.at(i)));
+    hWFsumFlat_ind_st.push_back((TH1D*)file_store.at(i)->Get("hWF_sum"));
+    
+  }
+  
+
+  TH1D * wf_sum_fin = new TH1D("added","",100000, -20,80);
+  for (int i(0); i<= 100000;i++){
+    wf_sum_fin->SetBinContent(i,0);
+}
+
+  for (int i(0); i <hWFsumFlat_ind_st.size(); i++){
+    
+    for (int j(0); j< 100000; j++){
+      wf_sum_fin->SetBinContent(j, wf_sum_fin->GetBinContent(j) - hWFsumFlat_ind_st.at(i)->GetBinContent(j));
+    }
+  }
+  wf_sum_fin->Rebin(400);
+  wf_sum_fin->Draw();
+
+
+}

@@ -1,0 +1,2 @@
+slurmstepd: error: execve(): merge_num.sh: Exec format error
+srun: error: cpu237: task 0: Exited with exit code 8

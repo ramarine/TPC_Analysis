@@ -1,0 +1,5 @@
+SysError in <TFile::TFile>: could not delete /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg700_TPC1650_p2_0/WF_output_5000_4.0RMS_intga_450.root (errno: 2) No such file or directory
+slurmstepd: error: *** STEP 65634425.0 ON cpu241 CANCELLED AT 2023-02-22T15:35:59 DUE TO TIME LIMIT ***
+slurmstepd: error: *** JOB 65634425 ON cpu241 CANCELLED AT 2023-02-22T15:35:59 DUE TO TIME LIMIT ***
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=65634425.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=65634425.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

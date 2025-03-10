@@ -1,0 +1,905 @@
+
+Welcome to rootlogon.C
+For approved plots use: gROOT->SetStyle("T2K");
+It is on by default now - to disable it comment out the last line of this macro
+
+
+Processing GeneralAna_v7.C("C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg700_TPC1650_p2_0")...
+ Directory exists 
+DEBUG 
+DEBUG 
+Number of entries per file = 100000
+Index of scintillator minimum = 19995
+DEBUG 
+The time 0  is -8e-05
+Trig Time IDx 19995
+ Doing the Integral of evt: 0
+nentries 100000
+ Did the Intg: 0
+ Doing the Integral of evt: 1
+nentries 100000
+ Did the Intg: 1
+ Doing the Integral of evt: 2
+nentries 100000
+ Did the Intg: 2
+ Doing the Integral of evt: 3
+nentries 100000
+ Did the Intg: 3
+ Doing the Integral of evt: 4
+nentries 100000
+ Did the Intg: 4
+ Doing the Integral of evt: 5
+nentries 100000
+ Did the Intg: 5
+ Doing the Integral of evt: 6
+nentries 100000
+ Did the Intg: 6
+ Doing the Integral of evt: 7
+nentries 100000
+ Did the Intg: 7
+ Doing the Integral of evt: 8
+nentries 100000
+ Did the Intg: 8
+ Doing the Integral of evt: 9
+nentries 100000
+ Did the Intg: 9
+ Doing the Integral of evt: 10
+nentries 100000
+ Did the Intg: 10
+ Doing the Integral of evt: 11
+nentries 100000
+ Did the Intg: 11
+ Doing the Integral of evt: 12
+nentries 100000
+ Did the Intg: 12
+ Doing the Integral of evt: 13
+nentries 100000
+ Did the Intg: 13
+ Doing the Integral of evt: 14
+nentries 100000
+ Did the Intg: 14
+ Doing the Integral of evt: 15
+nentries 100000
+ Did the Intg: 15
+ Doing the Integral of evt: 16
+nentries 100000
+ Did the Intg: 16
+ Doing the Integral of evt: 17
+nentries 100000
+ Did the Intg: 17
+ Doing the Integral of evt: 18
+nentries 100000
+ Did the Intg: 18
+ Doing the Integral of evt: 19
+nentries 100000
+ Did the Intg: 19
+ Doing the Integral of evt: 20
+nentries 100000
+ Did the Intg: 20
+ Doing the Integral of evt: 21
+nentries 100000
+ Did the Intg: 21
+ Doing the Integral of evt: 22
+nentries 100000
+ Did the Intg: 22
+ Doing the Integral of evt: 23
+nentries 100000
+ Did the Intg: 23
+ Doing the Integral of evt: 24
+nentries 100000
+ Did the Intg: 24
+ Doing the Integral of evt: 25
+nentries 100000
+ Did the Intg: 25
+ Doing the Integral of evt: 26
+nentries 100000
+ Did the Intg: 26
+ Doing the Integral of evt: 27
+nentries 100000
+ Did the Intg: 27
+ Doing the Integral of evt: 28
+nentries 100000
+ Did the Intg: 28
+ Doing the Integral of evt: 29
+nentries 100000
+ Did the Intg: 29
+ Doing the Integral of evt: 30
+nentries 100000
+ Did the Intg: 30
+ Doing the Integral of evt: 31
+nentries 100000
+ Did the Intg: 31
+ Doing the Integral of evt: 32
+nentries 100000
+ Did the Intg: 32
+ Doing the Integral of evt: 33
+nentries 100000
+ Did the Intg: 33
+ Doing the Integral of evt: 34
+nentries 100000
+ Did the Intg: 34
+ Doing the Integral of evt: 35
+nentries 100000
+ Did the Intg: 35
+ Doing the Integral of evt: 36
+nentries 100000
+ Did the Intg: 36
+ Doing the Integral of evt: 37
+nentries 100000
+ Did the Intg: 37
+ Doing the Integral of evt: 38
+nentries 100000
+ Did the Intg: 38
+ Doing the Integral of evt: 39
+nentries 100000
+ Did the Intg: 39
+ Doing the Integral of evt: 40
+nentries 100000
+ Did the Intg: 40
+ Doing the Integral of evt: 41
+nentries 100000
+ Did the Intg: 41
+ Doing the Integral of evt: 42
+nentries 100000
+ Did the Intg: 42
+ Doing the Integral of evt: 43
+nentries 100000
+ Did the Intg: 43
+ Doing the Integral of evt: 44
+nentries 100000
+ Did the Intg: 44
+ Doing the Integral of evt: 45
+nentries 100000
+ Did the Intg: 45
+ Doing the Integral of evt: 46
+nentries 100000
+ Did the Intg: 46
+ Doing the Integral of evt: 47
+nentries 100000
+ Did the Intg: 47
+ Doing the Integral of evt: 48
+nentries 100000
+ Did the Intg: 48
+ Doing the Integral of evt: 49
+nentries 100000
+ Did the Intg: 49
+The number of total events is 50
+The number of empty triggers is 29
+The number of signal events is 21
+The number of spark events is 0
+The number of bad pedestal events is 0
+ A total of 50 events have been written to the following file /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg700_TPC1650_p2_0
+nentries 100000
+WF_sum_raw size 100000
+ampl_TPC size 50
+ampl_TPC[0] size 100000
+
+ -------------------------------
+ It Took 0.0833333 minutes to run the code 
+(int) 1
+
+Welcome to rootlogon.C
+For approved plots use: gROOT->SetStyle("T2K");
+It is on by default now - to disable it comment out the last line of this macro
+
+
+Processing GeneralAna_v7.C("C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg600_TPC1650_p2_0")...
+ Directory exists 
+DEBUG 
+DEBUG 
+Number of entries per file = 100000
+Index of scintillator minimum = 20293
+DEBUG 
+The time 0  is -8e-05
+Trig Time IDx 20293
+ Doing the Integral of evt: 0
+nentries 100000
+ Did the Intg: 0
+ Doing the Integral of evt: 1
+nentries 100000
+ Did the Intg: 1
+ Doing the Integral of evt: 2
+nentries 100000
+ Did the Intg: 2
+ Doing the Integral of evt: 3
+nentries 100000
+ Did the Intg: 3
+ Doing the Integral of evt: 4
+nentries 100000
+ Did the Intg: 4
+ Doing the Integral of evt: 5
+nentries 100000
+ Did the Intg: 5
+ Doing the Integral of evt: 6
+nentries 100000
+ Did the Intg: 6
+ Doing the Integral of evt: 7
+nentries 100000
+ Did the Intg: 7
+ Doing the Integral of evt: 8
+nentries 100000
+ Did the Intg: 8
+ Doing the Integral of evt: 9
+nentries 100000
+ Did the Intg: 9
+ Doing the Integral of evt: 10
+nentries 100000
+ Did the Intg: 10
+ Doing the Integral of evt: 11
+nentries 100000
+ Did the Intg: 11
+ Doing the Integral of evt: 12
+nentries 100000
+ Did the Intg: 12
+ Doing the Integral of evt: 13
+nentries 100000
+ Did the Intg: 13
+ Doing the Integral of evt: 14
+nentries 100000
+ Did the Intg: 14
+ Doing the Integral of evt: 15
+nentries 100000
+ Did the Intg: 15
+ Doing the Integral of evt: 16
+nentries 100000
+ Did the Intg: 16
+ Doing the Integral of evt: 17
+nentries 100000
+ Did the Intg: 17
+ Doing the Integral of evt: 18
+nentries 100000
+ Did the Intg: 18
+ Doing the Integral of evt: 19
+nentries 100000
+ Did the Intg: 19
+ Doing the Integral of evt: 20
+nentries 100000
+ Did the Intg: 20
+ Doing the Integral of evt: 21
+nentries 100000
+ Did the Intg: 21
+ Doing the Integral of evt: 22
+nentries 100000
+ Did the Intg: 22
+ Doing the Integral of evt: 23
+nentries 100000
+ Did the Intg: 23
+ Doing the Integral of evt: 24
+nentries 100000
+ Did the Intg: 24
+ Doing the Integral of evt: 25
+nentries 100000
+ Did the Intg: 25
+ Doing the Integral of evt: 26
+nentries 100000
+ Did the Intg: 26
+ Doing the Integral of evt: 27
+nentries 100000
+ Did the Intg: 27
+ Doing the Integral of evt: 28
+nentries 100000
+ Did the Intg: 28
+ Doing the Integral of evt: 29
+nentries 100000
+ Did the Intg: 29
+ Doing the Integral of evt: 30
+nentries 100000
+ Did the Intg: 30
+ Doing the Integral of evt: 31
+nentries 100000
+ Did the Intg: 31
+ Doing the Integral of evt: 32
+nentries 100000
+ Did the Intg: 32
+ Doing the Integral of evt: 33
+nentries 100000
+ Did the Intg: 33
+ Doing the Integral of evt: 34
+nentries 100000
+ Did the Intg: 34
+ Doing the Integral of evt: 35
+nentries 100000
+ Did the Intg: 35
+ Doing the Integral of evt: 36
+nentries 100000
+ Did the Intg: 36
+ Doing the Integral of evt: 37
+nentries 100000
+ Did the Intg: 37
+ Doing the Integral of evt: 38
+nentries 100000
+ Did the Intg: 38
+ Doing the Integral of evt: 39
+nentries 100000
+ Did the Intg: 39
+ Doing the Integral of evt: 40
+nentries 100000
+ Did the Intg: 40
+ Doing the Integral of evt: 41
+nentries 100000
+ Did the Intg: 41
+ Doing the Integral of evt: 42
+nentries 100000
+ Did the Intg: 42
+ Doing the Integral of evt: 43
+nentries 100000
+ Did the Intg: 43
+ Doing the Integral of evt: 44
+nentries 100000
+ Did the Intg: 44
+ Doing the Integral of evt: 45
+nentries 100000
+ Did the Intg: 45
+ Doing the Integral of evt: 46
+nentries 100000
+ Did the Intg: 46
+ Doing the Integral of evt: 47
+nentries 100000
+ Did the Intg: 47
+ Doing the Integral of evt: 48
+nentries 100000
+ Did the Intg: 48
+ Doing the Integral of evt: 49
+nentries 100000
+ Did the Intg: 49
+The number of total events is 50
+The number of empty triggers is 34
+The number of signal events is 16
+The number of spark events is 0
+The number of bad pedestal events is 0
+ A total of 50 events have been written to the following file /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg600_TPC1650_p2_0
+nentries 100000
+WF_sum_raw size 100000
+ampl_TPC size 50
+ampl_TPC[0] size 100000
+
+ -------------------------------
+ It Took 0.0666667 minutes to run the code 
+(int) 1
+
+Welcome to rootlogon.C
+For approved plots use: gROOT->SetStyle("T2K");
+It is on by default now - to disable it comment out the last line of this macro
+
+
+Processing GeneralAna_v7.C("C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg500_TPC1650_p2_0_ii")...
+ Directory exists 
+DEBUG 
+DEBUG 
+Number of entries per file = 100000
+Index of scintillator minimum = 20000
+DEBUG 
+The time 0  is -8e-05
+Trig Time IDx 20000
+ Doing the Integral of evt: 0
+nentries 100000
+ Did the Intg: 0
+ Doing the Integral of evt: 1
+nentries 100000
+ Did the Intg: 1
+ Doing the Integral of evt: 2
+nentries 100000
+ Did the Intg: 2
+ Doing the Integral of evt: 3
+nentries 100000
+ Did the Intg: 3
+ Doing the Integral of evt: 4
+nentries 100000
+ Did the Intg: 4
+ Doing the Integral of evt: 5
+nentries 100000
+ Did the Intg: 5
+ Doing the Integral of evt: 6
+nentries 100000
+ Did the Intg: 6
+ Doing the Integral of evt: 7
+nentries 100000
+ Did the Intg: 7
+ Doing the Integral of evt: 8
+nentries 100000
+ Did the Intg: 8
+ Doing the Integral of evt: 9
+nentries 100000
+ Did the Intg: 9
+ Doing the Integral of evt: 10
+nentries 100000
+ Did the Intg: 10
+ Doing the Integral of evt: 11
+nentries 100000
+ Did the Intg: 11
+ Doing the Integral of evt: 12
+nentries 100000
+ Did the Intg: 12
+ Doing the Integral of evt: 13
+nentries 100000
+ Did the Intg: 13
+ Doing the Integral of evt: 14
+nentries 100000
+ Did the Intg: 14
+ Doing the Integral of evt: 15
+nentries 100000
+ Did the Intg: 15
+ Doing the Integral of evt: 16
+nentries 100000
+ Did the Intg: 16
+ Doing the Integral of evt: 17
+nentries 100000
+ Did the Intg: 17
+ Doing the Integral of evt: 18
+nentries 100000
+ Did the Intg: 18
+ Doing the Integral of evt: 19
+nentries 100000
+ Did the Intg: 19
+ Doing the Integral of evt: 20
+nentries 100000
+ Did the Intg: 20
+ Doing the Integral of evt: 21
+nentries 100000
+ Did the Intg: 21
+ Doing the Integral of evt: 22
+nentries 100000
+ Did the Intg: 22
+ Doing the Integral of evt: 23
+nentries 100000
+ Did the Intg: 23
+ Doing the Integral of evt: 24
+nentries 100000
+ Did the Intg: 24
+ Doing the Integral of evt: 25
+nentries 100000
+ Did the Intg: 25
+ Doing the Integral of evt: 26
+nentries 100000
+ Did the Intg: 26
+ Doing the Integral of evt: 27
+nentries 100000
+ Did the Intg: 27
+ Doing the Integral of evt: 28
+nentries 100000
+ Did the Intg: 28
+ Doing the Integral of evt: 29
+nentries 100000
+ Did the Intg: 29
+ Doing the Integral of evt: 30
+nentries 100000
+ Did the Intg: 30
+ Doing the Integral of evt: 31
+nentries 100000
+ Did the Intg: 31
+ Doing the Integral of evt: 32
+nentries 100000
+ Did the Intg: 32
+ Doing the Integral of evt: 33
+nentries 100000
+ Did the Intg: 33
+ Doing the Integral of evt: 34
+nentries 100000
+ Did the Intg: 34
+ Doing the Integral of evt: 35
+nentries 100000
+ Did the Intg: 35
+ Doing the Integral of evt: 36
+nentries 100000
+ Did the Intg: 36
+ Doing the Integral of evt: 37
+nentries 100000
+ Did the Intg: 37
+ Doing the Integral of evt: 38
+nentries 100000
+ Did the Intg: 38
+ Doing the Integral of evt: 39
+nentries 100000
+ Did the Intg: 39
+ Doing the Integral of evt: 40
+nentries 100000
+ Did the Intg: 40
+ Doing the Integral of evt: 41
+nentries 100000
+ Did the Intg: 41
+ Doing the Integral of evt: 42
+nentries 100000
+ Did the Intg: 42
+ Doing the Integral of evt: 43
+nentries 100000
+ Did the Intg: 43
+ Doing the Integral of evt: 44
+nentries 100000
+ Did the Intg: 44
+ Doing the Integral of evt: 45
+nentries 100000
+ Did the Intg: 45
+ Doing the Integral of evt: 46
+nentries 100000
+ Did the Intg: 46
+ Doing the Integral of evt: 47
+nentries 100000
+ Did the Intg: 47
+ Doing the Integral of evt: 48
+nentries 100000
+ Did the Intg: 48
+ Doing the Integral of evt: 49
+nentries 100000
+ Did the Intg: 49
+The number of total events is 50
+The number of empty triggers is 31
+The number of signal events is 19
+The number of spark events is 0
+The number of bad pedestal events is 0
+ A total of 50 events have been written to the following file /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg500_TPC1650_p2_0_ii
+nentries 100000
+WF_sum_raw size 100000
+ampl_TPC size 50
+ampl_TPC[0] size 100000
+
+ -------------------------------
+ It Took 0.0666667 minutes to run the code 
+(int) 1
+
+Welcome to rootlogon.C
+For approved plots use: gROOT->SetStyle("T2K");
+It is on by default now - to disable it comment out the last line of this macro
+
+
+Processing GeneralAna_v7.C("C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg400_TPC1650_p2_0")...
+ Directory exists 
+DEBUG 
+DEBUG 
+Number of entries per file = 100000
+Index of scintillator minimum = 19995
+DEBUG 
+The time 0  is -8e-05
+Trig Time IDx 19995
+ Doing the Integral of evt: 0
+nentries 100000
+ Did the Intg: 0
+ Doing the Integral of evt: 1
+nentries 100000
+ Did the Intg: 1
+ Doing the Integral of evt: 2
+nentries 100000
+ Did the Intg: 2
+ Doing the Integral of evt: 3
+nentries 100000
+ Did the Intg: 3
+ Doing the Integral of evt: 4
+nentries 100000
+ Did the Intg: 4
+ Doing the Integral of evt: 5
+nentries 100000
+ Did the Intg: 5
+ Doing the Integral of evt: 6
+nentries 100000
+ Did the Intg: 6
+ Doing the Integral of evt: 7
+nentries 100000
+ Did the Intg: 7
+ Doing the Integral of evt: 8
+nentries 100000
+ Did the Intg: 8
+ Doing the Integral of evt: 9
+nentries 100000
+ Did the Intg: 9
+ Doing the Integral of evt: 10
+nentries 100000
+ Did the Intg: 10
+ Doing the Integral of evt: 11
+nentries 100000
+ Did the Intg: 11
+ Doing the Integral of evt: 12
+nentries 100000
+ Did the Intg: 12
+ Doing the Integral of evt: 13
+nentries 100000
+ Did the Intg: 13
+ Doing the Integral of evt: 14
+nentries 100000
+ Did the Intg: 14
+ Doing the Integral of evt: 15
+nentries 100000
+ Did the Intg: 15
+ Doing the Integral of evt: 16
+nentries 100000
+ Did the Intg: 16
+ Doing the Integral of evt: 17
+nentries 100000
+ Did the Intg: 17
+ Doing the Integral of evt: 18
+nentries 100000
+ Did the Intg: 18
+ Doing the Integral of evt: 19
+nentries 100000
+ Did the Intg: 19
+ Doing the Integral of evt: 20
+nentries 100000
+ Did the Intg: 20
+ Doing the Integral of evt: 21
+nentries 100000
+ Did the Intg: 21
+ Doing the Integral of evt: 22
+nentries 100000
+ Did the Intg: 22
+ Doing the Integral of evt: 23
+nentries 100000
+ Did the Intg: 23
+ Doing the Integral of evt: 24
+nentries 100000
+ Did the Intg: 24
+ Doing the Integral of evt: 25
+nentries 100000
+ Did the Intg: 25
+ Doing the Integral of evt: 26
+nentries 100000
+ Did the Intg: 26
+ Doing the Integral of evt: 27
+nentries 100000
+ Did the Intg: 27
+ Doing the Integral of evt: 28
+nentries 100000
+ Did the Intg: 28
+ Doing the Integral of evt: 29
+nentries 100000
+ Did the Intg: 29
+ Doing the Integral of evt: 30
+nentries 100000
+ Did the Intg: 30
+ Doing the Integral of evt: 31
+nentries 100000
+ Did the Intg: 31
+ Doing the Integral of evt: 32
+nentries 100000
+ Did the Intg: 32
+ Doing the Integral of evt: 33
+nentries 100000
+ Did the Intg: 33
+ Doing the Integral of evt: 34
+nentries 100000
+ Did the Intg: 34
+ Doing the Integral of evt: 35
+nentries 100000
+ Did the Intg: 35
+ Doing the Integral of evt: 36
+nentries 100000
+ Did the Intg: 36
+ Doing the Integral of evt: 37
+nentries 100000
+ Did the Intg: 37
+ Doing the Integral of evt: 38
+nentries 100000
+ Did the Intg: 38
+ Doing the Integral of evt: 39
+nentries 100000
+ Did the Intg: 39
+ Doing the Integral of evt: 40
+nentries 100000
+ Did the Intg: 40
+ Doing the Integral of evt: 41
+nentries 100000
+ Did the Intg: 41
+ Doing the Integral of evt: 42
+nentries 100000
+ Did the Intg: 42
+ Doing the Integral of evt: 43
+nentries 100000
+ Did the Intg: 43
+ Doing the Integral of evt: 44
+nentries 100000
+ Did the Intg: 44
+ Doing the Integral of evt: 45
+nentries 100000
+ Did the Intg: 45
+ Doing the Integral of evt: 46
+nentries 100000
+ Did the Intg: 46
+ Doing the Integral of evt: 47
+nentries 100000
+ Did the Intg: 47
+ Doing the Integral of evt: 48
+nentries 100000
+ Did the Intg: 48
+ Doing the Integral of evt: 49
+nentries 100000
+ Did the Intg: 49
+The number of total events is 50
+The number of empty triggers is 32
+The number of signal events is 18
+The number of spark events is 0
+The number of bad pedestal events is 0
+ A total of 50 events have been written to the following file /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg400_TPC1650_p2_0
+nentries 100000
+WF_sum_raw size 100000
+ampl_TPC size 50
+ampl_TPC[0] size 100000
+
+ -------------------------------
+ It Took 0.0833333 minutes to run the code 
+(int) 1
+
+Welcome to rootlogon.C
+For approved plots use: gROOT->SetStyle("T2K");
+It is on by default now - to disable it comment out the last line of this macro
+
+
+Processing GeneralAna_v7.C("C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg300_TPC1650_p2_0")...
+ Directory exists 
+DEBUG 
+DEBUG 
+Number of entries per file = 100000
+Index of scintillator minimum = 19992
+DEBUG 
+The time 0  is -8e-05
+Trig Time IDx 19992
+ Doing the Integral of evt: 0
+nentries 100000
+ Did the Intg: 0
+ Doing the Integral of evt: 1
+nentries 100000
+ Did the Intg: 1
+ Doing the Integral of evt: 2
+nentries 100000
+ Did the Intg: 2
+ Doing the Integral of evt: 3
+nentries 100000
+ Did the Intg: 3
+ Doing the Integral of evt: 4
+nentries 100000
+ Did the Intg: 4
+ Doing the Integral of evt: 5
+nentries 100000
+ Did the Intg: 5
+ Doing the Integral of evt: 6
+nentries 100000
+ Did the Intg: 6
+ Doing the Integral of evt: 7
+nentries 100000
+ Did the Intg: 7
+ Doing the Integral of evt: 8
+nentries 100000
+ Did the Intg: 8
+ Doing the Integral of evt: 9
+nentries 100000
+ Did the Intg: 9
+ Doing the Integral of evt: 10
+nentries 100000
+ Did the Intg: 10
+ Doing the Integral of evt: 11
+nentries 100000
+ Did the Intg: 11
+ Doing the Integral of evt: 12
+nentries 100000
+ Did the Intg: 12
+ Doing the Integral of evt: 13
+nentries 100000
+ Did the Intg: 13
+ Doing the Integral of evt: 14
+nentries 100000
+ Did the Intg: 14
+ Doing the Integral of evt: 15
+nentries 100000
+ Did the Intg: 15
+ Doing the Integral of evt: 16
+nentries 100000
+ Did the Intg: 16
+ Doing the Integral of evt: 17
+nentries 100000
+ Did the Intg: 17
+ Doing the Integral of evt: 18
+nentries 100000
+ Did the Intg: 18
+ Doing the Integral of evt: 19
+nentries 100000
+ Did the Intg: 19
+ Doing the Integral of evt: 20
+nentries 100000
+ Did the Intg: 20
+ Doing the Integral of evt: 21
+nentries 100000
+ Did the Intg: 21
+ Doing the Integral of evt: 22
+nentries 100000
+ Did the Intg: 22
+ Doing the Integral of evt: 23
+nentries 100000
+ Did the Intg: 23
+ Doing the Integral of evt: 24
+nentries 100000
+ Did the Intg: 24
+ Doing the Integral of evt: 25
+nentries 100000
+ Did the Intg: 25
+ Doing the Integral of evt: 26
+nentries 100000
+ Did the Intg: 26
+ Doing the Integral of evt: 27
+nentries 100000
+ Did the Intg: 27
+ Doing the Integral of evt: 28
+nentries 100000
+ Did the Intg: 28
+ Doing the Integral of evt: 29
+nentries 100000
+ Did the Intg: 29
+ Doing the Integral of evt: 30
+nentries 100000
+ Did the Intg: 30
+ Doing the Integral of evt: 31
+nentries 100000
+ Did the Intg: 31
+ Doing the Integral of evt: 32
+nentries 100000
+ Did the Intg: 32
+ Doing the Integral of evt: 33
+nentries 100000
+ Did the Intg: 33
+ Doing the Integral of evt: 34
+nentries 100000
+ Did the Intg: 34
+ Doing the Integral of evt: 35
+nentries 100000
+ Did the Intg: 35
+ Doing the Integral of evt: 36
+nentries 100000
+ Did the Intg: 36
+ Doing the Integral of evt: 37
+nentries 100000
+ Did the Intg: 37
+ Doing the Integral of evt: 38
+nentries 100000
+ Did the Intg: 38
+ Doing the Integral of evt: 39
+nentries 100000
+ Did the Intg: 39
+ Doing the Integral of evt: 40
+nentries 100000
+ Did the Intg: 40
+ Doing the Integral of evt: 41
+nentries 100000
+ Did the Intg: 41
+ Doing the Integral of evt: 42
+nentries 100000
+ Did the Intg: 42
+ Doing the Integral of evt: 43
+nentries 100000
+ Did the Intg: 43
+ Doing the Integral of evt: 44
+nentries 100000
+ Did the Intg: 44
+ Doing the Integral of evt: 45
+nentries 100000
+ Did the Intg: 45
+ Doing the Integral of evt: 46
+nentries 100000
+ Did the Intg: 46
+ Doing the Integral of evt: 47
+nentries 100000
+ Did the Intg: 47
+ Doing the Integral of evt: 48
+nentries 100000
+ Did the Intg: 48
+ Doing the Integral of evt: 49
+nentries 100000
+ Did the Intg: 49
+The number of total events is 50
+The number of empty triggers is 32
+The number of signal events is 18
+The number of spark events is 0
+The number of bad pedestal events is 0
+ A total of 50 events have been written to the following file /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg300_TPC1650_p2_0
+nentries 100000
+WF_sum_raw size 100000
+ampl_TPC size 50
+ampl_TPC[0] size 100000
+
+ -------------------------------
+ It Took 0.0833333 minutes to run the code 
+(int) 1
+
+Welcome to rootlogon.C
+For approved plots use: gROOT->SetStyle("T2K");
+It is on by default now - to disable it comment out the last line of this macro
+
+
+Processing GeneralAna_v7.C("")...
+ Directory exists 
+DEBUG 
+DEBUG 

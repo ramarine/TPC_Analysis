@@ -1,0 +1,270 @@
+// Code used to explore ONE TTree produced from the binary file
+// this code takes the events which are defined as signal from the root ttree and it investigates them. 
+
+
+#include <TROOT.h>
+#include <TH2D.h>
+#include <TH1D.h>
+#include <TMath.h>
+#include <TRandom.h>
+#include <stdlib.h>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <TFile.h>
+#include <cmath>
+#include <chrono>
+
+
+using namespace std::chrono;
+using namespace std;
+
+
+
+double ConvertToPhot(double Neg_Amplitude, double dt){
+  double const R(50.), gain(1e7), e_ch(1.6e-19), qe(0.25), col_eff(0.8);//gain = 1e7 for 1650V (Hamamtsu R6427)
+  return Neg_Amplitude * (-dt) /(R* gain *e_ch*qe*col_eff);
+}
+
+
+
+void PlotMultiWF(std::vector<TH1*> hist ,const char * file_name){
+
+  TCanvas *c1 = new TCanvas("c1","sub data",200,10,700,500);
+
+
+  string first = std::string(file_name)+std::string("(");
+  string last =std::string(file_name) +std::string(")");
+  string mid = std::string(file_name);
+
+
+
+  for (int i(0); i < hist.size(); i++){
+    //char first = file_name.c_str+"(";
+    //char last = file_name.c_str+")";
+    if (i==0) {
+      hist[i]->Draw();
+      c1->Print(first.c_str(),"pdf0");
+    }else if (i == hist.size() -1 ){
+      hist[i]->Draw();
+      c1->Print(last.c_str(),"pdf2");
+    }else{
+      hist[i]->Draw();
+      c1->Print(file_name,"pdf1");
+    }
+  }
+}
+
+//------------------
+//main
+//------------------
+
+void TTreeUnfold(bool SaveWFPlot = false, string type = "Signal"){
+
+
+  gROOT->SetStyle("Default");
+  //  bool SaveWFPlot = true; 
+
+  std::vector<double> key_idx;
+  std::vector<double> key_Intg;
+  std::vector<double> key_min_a;
+
+  // double const R(50.), gain(1e7), e_ch(1.6e-19), qe(0.25), col_eff(0.8), dt(1e-9);//gain = 1e7 for 1650V (Hamamtsu R6427)
+  // double con_fact = - dt /(R* gain *e_ch*qe*col_eff);
+
+  auto start = high_resolution_clock::now();
+
+  std::vector<TString> path_store;
+
+
+  //path_store.push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh0_TPC1650_p1_0/");  
+  path_store.push_back("../../../Swan_TTrees/Configuration_P25/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh0_TPC1650_p2_0_ii/");
+
+
+  TH1D *h1 =  new TH1D("h1","", 100000, -20,80);
+  TH1D *h_rms =  new TH1D("h_rms","", 100000, -20,80);
+  TH1D *h_rms_dump =  new TH1D("h_rms_dump","", 1000, -0.1,0.1);
+  TH1D *h_intg_a =  new TH1D("h_intg_a","", 1000, -0.2,1000);
+  
+
+  TH2D *hIntg_a_vs_min = new TH2D("","Min Vs Integral in Drift Region; Integral In Drift [Photons]; Min [V]", 100,0,6000,1000,-3, 0.3);
+  TH2D *hMin_vs_HitCt = new TH2D("hMin_vs_HitCt"," Min vs Counts above treshold;  Counts above tresholdl;Min [V]", 100,0,6000,1000,-3, 0.3);
+  TH2D *hIntg_a_vs_hits  = new TH2D("h_Intg_a_vs_hits_a","Counts above threshold Vs Integral in Drift Region; Integral In Drift [Photons]; Counts above treshlod", 100,0,6000,1000,0, 4000);
+  h1->SetTitle("title; Time (#mus); Arbitrary ADC Units ");
+
+
+
+
+  TString NSigmas_st = "4.0";
+  double NSigmas = 4.0;
+  std::vector<int> sig_evt;
+  //
+  // TH1D *h1 =  new TH1D("h1","", 100000, 0,100000);
+  // h1->SetTitle("title; x; y");
+  TRandom r;
+
+
+
+
+
+
+  std::unique_ptr<TFile> myFile(TFile::Open(path_store.at(0)+"WF_output_4600_"+NSigmas_st+"RMS.root"));
+  auto tree = myFile->Get<TTree>("T");
+  std::vector<int> Spark_idx;
+  std::vector<int> BadPed_idx;
+  std::vector<int> Signal_idx;
+  std::vector<int> Empty_idx;
+  std::vector<int> *min_cts_a = new std::vector<int>;
+  std::vector<double> intg_bef;
+  std::vector<double> intg_aft;
+  double intg_a(0);
+  std::vector<double> intg_b;
+  std::vector<double> dummy_intg(4,0);
+
+  int Signal(0), Empty(0);
+
+  // std::vector<std::vector<double>> wf_store;
+  // std::vector<std::vector<double>> rms_store;
+  
+  std::vector<double> *wf = new std::vector<double>;
+  std::vector<double> *rms = new std::vector<double>;
+  std::vector<int> MinIdxPerEvt;
+  Double_t dt, t0(-20);
+  int trig_idx, nentries;
+
+  tree->SetBranchAddress("dt", &dt);
+  tree->SetBranchAddress("Signal", &Signal);
+  tree->SetBranchAddress("Empty", &Empty);
+  tree->SetBranchAddress("intg_a", &intg_a);
+  tree->SetBranchAddress("min_counts_inDrift", &min_cts_a);
+  // tree->SetBranchAddress("t0", &tree);
+  tree->SetBranchAddress("trig_idx", &trig_idx);
+  tree->SetBranchAddress("nentries", &nentries);
+  tree->GetEntry(0);
+
+  
+  cout << " There are " << tree->GetBranch("Signal")->GetEntries() <<  " signal events" << endl;
+  cout << " There are " << tree->GetBranch("Empty")->GetEntries() <<  " empty events" << endl;
+
+  const double drift_time = 40e-6;
+  const double extended_drift_time = 80e-6;
+
+  int const TrigTimeIdx = trig_idx;
+  int const a_idx = TrigTimeIdx + int(drift_time/dt);
+  int const ab_idx = TrigTimeIdx + int(extended_drift_time/dt);
+
+
+  // cout << "dt " << dt << " t0 " << t0 << " nentries " << nentries << " trig_idx " << trig_idx << endl;
+  tree->SetBranchAddress("WF", &wf);
+  tree->SetBranchAddress("RMS", &rms);
+
+  tree->SetBranchStatus("*",0); //disable all branches
+  tree->SetBranchStatus("WF",1);
+  tree->SetBranchStatus("RMS",1);
+  tree->SetBranchStatus("Signal",1);
+  tree->SetBranchStatus("Empty",1);
+  tree->SetBranchStatus("intg_a",1);
+  tree->SetBranchStatus("min_counts_inDrift", 1);
+  std::vector<double> time(100000,0);
+
+  for (int i(0);i< 100000; i++){
+    time[i] = t0 + i* dt*1e6;// conversion to microsecond
+  }
+  // cout << "time[0] " << time[0] << "t0" << t0 << endl;
+  // cout << TrigTimeIdx << endl;	
+  // cout << "time[TrigTimeIdx] " << time[TrigTimeIdx] << endl;
+  double x_line= 0;
+  int evt = 400;
+  // int tot_evt = tree->GetBranch("WF")->GetEntries();
+
+  double intg_a_st = 0;
+
+
+  int tot_type =tree->GetBranch(type.c_str())->GetEntries();
+  int tot_evt = 100;
+  
+  
+  
+  if (tot_evt > tot_type) tot_evt = tot_type;
+  for (int iEntry = 0; iEntry < tot_type; iEntry++){
+    
+    // Load the data for the given tree entry
+    tree->GetEntry(iEntry);
+    //cout << iEntry << " " << Signal << endl;
+    if (type == "Signal") tree->GetEntry(Signal);
+    else if (type == "Empty") tree->GetEntry(Empty);
+    h_intg_a->Fill(intg_a);
+    // MinIdxPerEvt.push_back(min_idx);
+    evt = 206;
+    //if (iEntry == evt){
+    
+    if (SaveWFPlot == true && 500 < intg_a && intg_a < 1000){
+      for (int j(0); j < wf->size(); j++){
+	h1->SetBinContent(j+1, -wf->at(j));
+	h_rms_dump ->Fill( - NSigmas * rms->at(j));
+	h_rms->SetBinContent(j+1, - NSigmas * rms->at(j));
+      }
+      
+      h1->SetTitle(Form("Evt %d | %.02f * rms | intg_a = %f , min cts = %zu",iEntry, NSigmas, intg_a, min_cts_a->size()));
+      TCanvas *wtf = new TCanvas("wf", "waveform", 0, 0, 800, 600);
+      h1->GetYaxis()->SetTitleOffset(1.1);
+      h1->Draw();
+      if ( type == "Signal" )      wtf->SaveAs(Form("Pdfs/Signal/evt_%d.pdf", iEntry));
+      if ( type == "Empty" )      wtf->SaveAs(Form("Pdfs/Empty/evt_%d.pdf", iEntry));
+      
+      // h_rms->SetLineColor(kRed);
+      // h_rms->Draw("same");
+      
+      //  l->Draw("same");
+      // l_IntgCum->Draw("same");
+      // if (key_min_a.size() != 0)  {
+      //   TLine *l_hit_over_th = new TLine(time[key_min_a[0]],-1,key_min_a[0],1);
+      //   l_hit_over_th->Draw("same");
+      // }
+      
+      
+    }      
+  }
+  //}
+
+  
+  TCanvas *wtf = new TCanvas("wf", "waveform", 0, 0, 800, 600);
+  h1->Draw();
+  
+  
+  // TCanvas *cEvt_Intg = new TCanvas("Evt_Intg", "waveform", 1200, 600);
+  // cEvt_Intg->Divide(2,2);
+  // cEvt_Intg->cd(1);
+  // hIntg_a_vs_min->Draw("colz");
+  // gStyle->SetOptStat(111111);
+  
+  // cEvt_Intg->cd(2);
+  // hIntg_a_vs_hits->Draw("colz");
+  // gStyle->SetOptStat(111111);
+  
+  // cEvt_Intg->cd(3);
+  // hMin_vs_HitCt->Draw("colz");
+  // gStyle->SetOptStat(111111);
+  
+  
+  // cout << "intg a " << intg_a[2] << endl;
+  cout << " intg a by hand " << ConvertToPhot(0.3, dt)<< endl;
+  // ****************************************** TIME MONITOR *********************************************
+
+  TCanvas *c_intg_a = new TCanvas ("","", 800, 600);
+  h_intg_a->Draw();
+
+  auto stop = high_resolution_clock::now();
+  auto duration = duration_cast<seconds>(stop - start);
+
+  if(  SaveWFPlot == true ){
+    TCanvas *c_rms_dump = new TCanvas ("","", 800,600);
+    h_rms_dump->Draw();
+} 
+
+  cout << "" << endl;
+  cout << " -------------------------------"<< endl;
+  cout << " It Took " <<duration.count()/60. << " minutes to run the code " << endl;
+
+}

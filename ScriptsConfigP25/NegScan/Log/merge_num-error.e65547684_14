@@ -1,0 +1,58 @@
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002ba15ce8d60c in waitpid () from /lib64/libc.so.6
+#1  0x00002ba15ce0af62 in do_system () from /lib64/libc.so.6
+#2  0x00002ba15c4ddc4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002ba15c4db255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002ba15ce37180 in fread () from /lib64/libc.so.6
+#6  0x00002ba161c617f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x0000000000000050 in ?? ()
+#9  0x00002ba161b06fa8 in vtable for TClingDeclInfo () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#10 0x00002ba175285660 in _GLOBAL_OFFSET_TABLE_ () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libTree.so
+#11 0x000000000536b1e8 in ?? ()
+#12 0x000000000536b228 in ?? ()
+#13 0x000000000536b280 in ?? ()
+#14 0x000000000536b298 in ?? ()
+#15 0x000000000536b090 in ?? ()
+#16 0x00002ba15bfabe9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#17 0x00002ba15bfb39ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#18 0x00007ffdff092a38 in ?? ()
+#19 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002ba15ce37180 in fread () from /lib64/libc.so.6
+#6  0x00002ba161c617f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x0000000000000050 in ?? ()
+#9  0x00002ba161b06fa8 in vtable for TClingDeclInfo () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#10 0x00002ba175285660 in _GLOBAL_OFFSET_TABLE_ () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libTree.so
+#11 0x000000000536b1e8 in ?? ()
+#12 0x000000000536b228 in ?? ()
+#13 0x000000000536b280 in ?? ()
+#14 0x000000000536b298 in ?? ()
+#15 0x000000000536b090 in ?? ()
+#16 0x00002ba15bfabe9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#17 0x00002ba15bfb39ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#18 0x00007ffdff092a38 in ?? ()
+#19 0x0000000000000000 in ?? ()
+===========================================================
+
+
+srun: error: cpu064: task 0: Exited with exit code 1

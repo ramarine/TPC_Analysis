@@ -1,0 +1,53 @@
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002b105d5ef60c in waitpid () from /lib64/libc.so.6
+#1  0x00002b105d56cf62 in do_system () from /lib64/libc.so.6
+#2  0x00002b105cc3fc4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002b105cc3d255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002b105d599180 in fread () from /lib64/libc.so.6
+#6  0x00002b10623c37f3 in ?? ()
+#7  0x0000000005341d68 in ?? ()
+#8  0x0000000005341da8 in ?? ()
+#9  0x0000000005341e00 in ?? ()
+#10 0x0000000005341e18 in ?? ()
+#11 0x0000000005341c10 in ?? ()
+#12 0x00002b105c70de9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002b105c7159ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007ffcb4693e18 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002b105d599180 in fread () from /lib64/libc.so.6
+#6  0x00002b10623c37f3 in ?? ()
+#7  0x0000000005341d68 in ?? ()
+#8  0x0000000005341da8 in ?? ()
+#9  0x0000000005341e00 in ?? ()
+#10 0x0000000005341e18 in ?? ()
+#11 0x0000000005341c10 in ?? ()
+#12 0x00002b105c70de9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002b105c7159ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007ffcb4693e18 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+Error in <TFile::TFile>: file /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh500_TPC1650_p2_0/WF_output_5000_4.0RMS_intga_550.root already exists
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=65547880.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: cpu061: task 0: Out Of Memory
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=65547880.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

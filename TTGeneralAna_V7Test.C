@@ -1,0 +1,356 @@
+// Code used to explore ONE TTree produced from the binary file
+
+#include <TROOT.h>
+#include <TH2D.h>
+#include <TH1D.h>
+#include <TMath.h>
+#include <TRandom.h>
+#include <stdlib.h>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <TFile.h>
+#include <cmath>
+#include <chrono>
+
+
+using namespace std::chrono;
+using namespace std;
+
+double ConvertToPhot(double Neg_Amplitude, double dt){
+  double const R(50.), gain(1e7), e_ch(1.6e-19), qe(0.25), col_eff(0.8);//gain = 1e7 for 1650V (Hamamtsu R6427)
+  return Neg_Amplitude * (-dt) /(R* gain *e_ch*qe*col_eff);
+}
+
+
+//-------------------------------------------********************--------------------------------------------------------
+//                                         Define Integral function
+//------------------------------------------*********************--------------------------------------------------------
+
+std::tuple<std::vector<double>, std::vector<double>>Integral(std::vector<double> &adc, std::vector<double> &rmsv, std::vector<double> &time,   double NSigmas = 4,  double t0 = 0, double dt = 0, const int TrigTimeIdx = 0, const int a_idx = 0,const int ab_idx = 0 ) {
+std::tuple<std::vector<double>, std::vector<double>> intg_out;
+
+  Long64_t nentries = adc.size();
+  std::vector<double>vect_cum(nentries,0);
+  std::vector<double> min_a;
+  bool plotfig = false;
+
+
+
+
+  std::vector <double> dum_vec(1,-1000000);
+
+
+  double n,t;
+
+
+  std::vector<double> pedv;
+
+  string ch;
+  int nv;
+  double a1,a2,sampling;
+  string line;
+
+
+  //   static TH1F *WF = NULL;
+  //   if( WF )
+  //   WF->Reset();
+  //   else
+  //   WF = new TH1F("WF","  ",nentries, t0-0.5e-9,((t0 + dt * nentries)-0.5e-9));
+
+  static TH1F *Cum = NULL;
+  if( Cum )
+  Cum->Reset();
+  else
+  Cum = new TH1F("Cum","  ",nentries, t0-0.5e-9,((t0 + dt * nentries)-0.5e-9));
+
+  static TH1F *Thr = NULL;
+  if( Thr )
+  Thr->Reset();
+  else
+  Thr = new TH1F("Thr","  ",nentries, t0-0.5e-9,((t0 + dt * nentries)-0.5e-9));
+
+
+
+
+
+  double cadc = 0.;
+  int iaccum = 0;
+  double accum = 0;
+  int iaccum_pos = 0;
+  double accum_pos = 0;
+
+  for(int i = 0; i < nentries; i++ ) {
+    if (adc[i] < - rmsv[i] * NSigmas) {
+      cadc += adc[i];// variable being passed to the Cum  TH1. Basicaly each entry in this histogram represents the integral up to that point.
+      if (i < a_idx ) min_a.push_back(i);
+    }
+    //     WF->SetBinContent(i+1,adc[i]);
+    Cum->SetBinContent(i+1,cadc);
+    Thr->SetBinContent(i+1,rmsv[i]);
+
+    if (i>0) vect_cum[i] = cadc;
+  }
+
+  std::vector<double> intg_vect;
+  double IntgNormBef = (time[TrigTimeIdx]-t0);
+  double IntgNormAft = (time.back()-time[TrigTimeIdx]);
+  double IntgNormA = (time[a_idx]-time[TrigTimeIdx]);
+  double IntgNormAB = (time[ab_idx]-time[a_idx]);
+
+
+  // cout << " Intg Bef " <<IntgNormBef << "  Intg Aft " << IntgNormAft << " Intg A " <<  IntgNormA << "  Intg AB " << IntgNormAB<< "  " <<endl;
+  // cout << " time[0] " << time[0] << " time[TrigTimeIdx] " << time[TrigTimeIdx]<<  " t0 " << t0 << "  time[a_idx]= " << time[a_idx] << " time[nentries] "<<  time[nentries] << endl;
+  // cout << TrigTimeIdx << " a "<< a_idx << " ab " << ab_idx << " nentries " << nentries << endl;
+  intg_vect.push_back(Cum->GetBinContent(TrigTimeIdx) /(IntgNormBef/IntgNormA));
+  intg_vect.push_back((Cum->GetBinContent(nentries) - Cum->GetBinContent(TrigTimeIdx))/(IntgNormAft/IntgNormA));
+  intg_vect.push_back((Cum->GetBinContent(a_idx) - Cum->GetBinContent(TrigTimeIdx))/(IntgNormA/IntgNormA));
+
+  //intg_vect.push_back(Cum->GetBinContent(a_idx) - Cum->GetBinContent(TrigTimeIdx));
+  intg_vect.push_back((Cum->GetBinContent(ab_idx) - Cum->GetBinContent(a_idx))/(IntgNormAB/IntgNormA));
+
+
+
+  //WF->SetTitle(Form("Number of Photons In the Drift Period %f", -  dt /(R* gain *e_ch*qe*col_eff)*(IntgNormA/IntgNormA)));
+
+
+
+  return std::make_tuple(intg_vect,min_a);//bef, aft, a, b
+
+
+}
+
+
+
+
+
+double GetDivError(double nom, double denom, double nom_err, double denom_err){
+  return TMath::Sqrt(((nom_err*nom_err) / (denom*denom) ) + (nom*nom * denom_err*denom_err)/(denom*denom*denom*denom));
+}
+
+int GetMinIdx(std::vector<double> *wf){
+  double min = 10000000;
+  int idx = 0;
+  for (int i(0); i < wf->size(); i++){
+    if (wf->at(i) < min) {
+      min = wf->at(i);
+      idx = i;
+    }
+  }
+  return idx;
+
+}
+
+bool IsSpark(std::vector<double> *wf){
+  if (wf->at(0) == -999) return true;
+  else return false;
+}
+
+bool IsBadPed(std::vector<double> *wf){
+  if (wf->at(0) == -888) return true;
+  else return false;
+}
+
+bool IsSignal(std::vector<double> *wf,std::vector<double> *rms, double NSigmas = 0.,int curr_min = -1 , int evt =-10, double intg_a_fun = -1, double hit_count = -1){
+  double tresh = -NSigmas*rms->at(curr_min);
+
+  if (wf->at(curr_min) < tresh && intg_a_fun >10 && hit_count > 7) {
+    return true;
+  }
+  return false;//code that the event is empty;
+}
+
+string GetEventTag(std::vector<double> *wf,std::vector<double> *rms, double NSigmas = 0.,int curr_min = -1 , int evt =-10, double intg_a_fun = -1, double hit_count = -1){
+  string Spark = "Spark";
+  string BadPed = "BadPed";
+  string Signal = "Signal";
+  string Empty = "Empty";
+  if (IsSpark(wf) == true) return Spark;
+  else if (IsBadPed(wf) == true) return BadPed;
+  else if (IsSignal(wf, rms, NSigmas, curr_min, evt, intg_a_fun, hit_count) == true) return Signal;
+  else return Empty;
+
+}
+
+void PlotMultiWF(std::vector<TH1*> hist ,const char * file_name){
+
+  TCanvas *c1 = new TCanvas("c1","sub data",200,10,700,500);
+
+
+  string first = std::string(file_name)+std::string("(");
+  string last =std::string(file_name) +std::string(")");
+  string mid = std::string(file_name);
+
+
+
+  for (int i(0); i < hist.size(); i++){
+    //char first = file_name.c_str+"(";
+    //char last = file_name.c_str+")";
+    if (i==0) {
+      hist[i]->Draw();
+      c1->Print(first.c_str(),"pdf0");
+    }else if (i == hist.size() -1 ){
+      hist[i]->Draw();
+      c1->Print(last.c_str(),"pdf2");
+    }else{
+      hist[i]->Draw();
+      c1->Print(file_name,"pdf1");
+    }
+  }
+}
+
+//------------------
+//main
+//------------------
+
+void TTGeneralAna_V7Test(){
+
+  std::vector<double> key_idx;
+  std::vector<double> key_Intg;
+  std::vector<double> key_min_a;
+
+  // double const R(50.), gain(1e7), e_ch(1.6e-19), qe(0.25), col_eff(0.8), dt(1e-9);//gain = 1e7 for 1650V (Hamamtsu R6427)
+  // double con_fact = - dt /(R* gain *e_ch*qe*col_eff);
+
+  auto start = high_resolution_clock::now();
+
+  std::vector<TString> path_store;
+
+
+  //  path_store.push_back("../../Swan_TTrees/Configuration_18/C3500_LSF1480_ThGUp1400_ThGDnGND_PMesh1400_ii_TPC1650_a/");
+  path_store.push_back("../../Swan_TTrees/Configuration_18/C3500_LSF1480_ThGUp1400_ThGDnGND_PMesh500_TPC1650/");
+
+  TH1D *h1 =  new TH1D("h1","", 100000, -20,80);
+  TH1D *h_rms =  new TH1D("h_rms","", 100000, -20,80);
+
+
+  TH2D *hIntg_a_vs_min = new TH2D("","Min Vs Integral in Drift Region; Integral In Drift [Photons]; Min [V]", 100,0,6000,1000,-3, 0.3);
+  TH2D *hMin_vs_HitCt = new TH2D("hMin_vs_HitCt"," Min vs Counts above treshold;  Counts above tresholdl;Min [V]", 100,0,6000,1000,-3, 0.3);
+  TH2D *hIntg_a_vs_hits  = new TH2D("h_Intg_a_vs_hits_a","Counts above threshold Vs Integral in Drift Region; Integral In Drift [Photons]; Counts above treshlod", 100,0,6000,1000,0, 4000);
+  h1->SetTitle("title; Time (#mus); Arbitrary ADC Units ");
+
+
+
+
+  TString NSigmas_st = "4.0";
+  double NSigmas = 4.0;
+  std::vector<int> sig_evt;
+  //
+  // TH1D *h1 =  new TH1D("h1","", 100000, 0,100000);
+  // h1->SetTitle("title; x; y");
+  TRandom r;
+
+
+
+
+
+
+  //  std::unique_ptr<TFile> myFile(TFile::Open(path_store.at(0)+"WF_output_5000_"+NSigmas_st+"RMS.root"));
+  std::unique_ptr<TFile> myFile(TFile::Open(path_store.at(0)+"WF_output_20_"+NSigmas_st+"RMS.root"));
+  auto tree = myFile->Get<TTree>("T");
+  std::vector<int> Spark_idx;
+  std::vector<int> BadPed_idx;
+  std::vector<int> Signal_idx;
+  std::vector<int> Empty_idx;
+  std::vector<double> intg_bef;
+  std::vector<double> intg_aft;
+  std::vector<double> intg_a;
+  std::vector<double> intg_b;
+  std::vector<double> dummy_intg(4,0);
+
+
+
+  // std::vector<std::vector<double>> wf_store;
+  // std::vector<std::vector<double>> rms_store;
+
+  std::vector<double> *wf = new std::vector<double>;
+  std::vector<double> *rms = new std::vector<double>;
+  std::vector<int> MinIdxPerEvt;
+  Double_t dt, t0(-20), t_evt;
+  int trig_idx, nentries;
+
+  double ti(0), tf(0); 
+
+
+  tree->SetBranchAddress("dt", &dt);
+  //tree->SetBranchAddress("t0", &t0);
+  tree->SetBranchAddress("trig_idx", &trig_idx);
+  tree->SetBranchAddress("t_evt", &t_evt);
+  tree->SetBranchAddress("nentries", &nentries);
+  tree->GetEntry(0);
+
+  const double drift_time = 40e-6;
+  const double extended_drift_time = 80e-6;
+
+  int const TrigTimeIdx = trig_idx;
+  int const a_idx = TrigTimeIdx + int(drift_time/dt);
+  int const ab_idx = TrigTimeIdx + int(extended_drift_time/dt);
+
+
+
+
+  // cout << "dt " << dt << " t0 " << t0 << " nentries " << nentries << " trig_idx " << trig_idx << endl;
+  tree->SetBranchAddress("WF", &wf);
+  tree->SetBranchAddress("RMS", &rms);
+
+  tree->SetBranchStatus("*",0); //disable all branches
+  tree->SetBranchStatus("WF",1);
+  tree->SetBranchStatus("RMS",1);
+
+  std::vector<double> time(100000,0);
+
+  for (int i(0);i< 100000; i++){
+    time[i] = t0 + i* dt*1e6;// conversion to microsecond
+
+  }
+  // cout << "time[0] " << time[0] << "t0" << t0 << endl;
+  // cout << TrigTimeIdx << endl;	
+  // cout << "time[TrigTimeIdx] " << time[TrigTimeIdx] << endl;
+  double x_line= 0;
+  int evt = 400;
+  // int tot_evt = tree->GetBranch("WF")->GetEntries();
+  
+  int tot_evt =20;
+  for (int iEntry = 0; iEntry < tot_evt ; iEntry++){
+    // Load the data for the given tree entry
+
+
+
+    tree->GetEntry(iEntry);
+
+    if (iEntry == 0 ) ti = t_evt;
+    else if(iEntry == 19) tf = t_evt;
+
+    auto intg_out = Integral(*wf, *rms, time, NSigmas,  t0 ,  dt,  TrigTimeIdx ,  a_idx, ab_idx );
+
+    dummy_intg = std::move(get<0>(intg_out));
+    auto min_a = std::move(get<1>(intg_out));
+    intg_bef.push_back(ConvertToPhot(dummy_intg[0],dt));
+    intg_aft.push_back(ConvertToPhot(dummy_intg[1],dt));
+    intg_a.push_back(ConvertToPhot(dummy_intg[2],dt));
+
+    intg_b.push_back(ConvertToPhot(dummy_intg[3],dt));
+
+
+
+    int min_idx =   GetMinIdx(wf);
+    double hit_counts = min_a.size();
+    //cout << hit_counts << endl;
+    string type = GetEventTag(wf,rms, NSigmas ,min_idx , iEntry, intg_a[iEntry], hit_counts );
+
+
+
+   
+  }
+
+
+  cout << "signal " << Signal_idx.size() << endl;
+  cout << "empty " << Empty_idx.size() << endl;
+  cout << "bad ped " << BadPed_idx.size() << endl;
+  cout << "spark " << Spark_idx.size() <<endl;
+  cout << "total" << Signal_idx.size()+Empty_idx.size()+Spark_idx.size()+BadPed_idx.size()<< endl;
+  
+  cout <<setprecision(10) << " ti=  " << ti << " tf " << tf << " dt= " << tf-ti << endl; 
+
+}

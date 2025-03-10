@@ -1,0 +1,769 @@
+// This is a code very similar to the MergeHisto code series in which the yield of several line is plotted on the same graph.
+// This code is intended to study the only 3 mesh point per line: -100, 0 and 100V. 
+// Each line set is taken at a very constant gas purity level. first set is taken at 10 ppm O2, 50 ppm P2. 
+// Second data set is taken a????
+
+ 
+#include "../../ListOfMethods.cpp"
+#include <TROOT.h>
+#include <TH2D.h>
+#include <TMath.h>
+#include <TRandom.h>
+#include <TRandom3.h>
+#include <stdlib.h>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <TFile.h>
+#include <stdio.h>      /* printf */
+#include <math.h>       /* pow */
+#include <iostream>
+
+
+// I want a function which takes h1
+
+using namespace std;
+
+void VecForPyth(std::vector<double> v){
+  cout << "[";
+  for (int i(0); i< v.size(); i++){
+    cout << v.at(i)  ;
+    if (i != v.size() -1) cout << "," ;
+  }
+  cout << " ]" << endl;
+  
+}
+
+
+double GetE_N(double potential, double dist, double p){  
+  
+  //   // gas parameteres
+  double n(0.);
+  //  double p(100000); //pressure in Pa
+  double N0(6.022e23);
+  double R(8.3145);//J/mol/K
+  double T(293.);//K
+  
+  //Geometry
+  //double dist = 0.1;// in cm (distance between the electrodes)
+  //  double potential  = 1400; // in Volts.
+  
+  //conversion factor
+  double cm_unit = 1e-6;
+  double toTd = 1e-17;
+  n = p*N0/(R*T)*cm_unit;
+  
+
+  //    std::cout << " The number density is " << n << " atom/cm3"<<  std::endl;
+  // std::cout << " This is the number which appears in the excel formula" <<1/ (n*toTd) << " atom/cm3"<<  std::endl;
+
+//   std::cout << " The reduced electric field is " << potential/dist/n/toTd << "Td" << std::endl;
+  
+//   std::cout << " ---------------------------------- " << std::endl;
+  
+  return potential/dist/n/toTd;
+
+  }
+
+  
+
+double GetDivError(double nom, double denom, double nom_err, double denom_err){
+  return TMath::Sqrt(((nom_err*nom_err) / (denom*denom) ) + (nom*nom * denom_err*denom_err)/(denom*denom*denom*denom));
+}
+
+double GetAddError(double err_x, double err_y){
+  return TMath::Sqrt((err_x*err_x) + (err_y*err_y));
+}
+
+double GetAvgError(std::vector<double> *error_vect = NULL){
+  double dummy(0);
+  for (int i(0); i < error_vect->size(); i++){
+    dummy+= error_vect->at(i)* error_vect->at(i);
+  }
+
+
+  return TMath::Sqrt(dummy)/error_vect->size();
+}
+
+
+
+void PurityAna(){
+
+  //  gROOT->SetStyle("Plain");
+  //defining Stacks
+  THStack *hsWFsum = new THStack("hsWF", " WF Sum (amplitudes higher than treshold);  Time (#mus); Equivalent Number of Photons ");
+
+  double rebin_no = 5000;
+  double const R(50.),gain_1650(1e7) , gain(2.9e6), e_ch(1.6e-19), qe(0.25), col_eff(0.8), dt(1e-9);//gain = 1.21e7 for 1650V (Hamamtsu R6427), gain = 2.9e6 for 1370V
+  //double phot_to_volt =1/( - dt /(R* gain *e_ch*qe*col_eff));// formula from my point of view
+  double phot_to_volt =1/( - dt /(R* gain *e_ch));// formula from Federico's point of view
+  double con_fact_P24 = phot_to_volt;// -0.05;
+  //double con_fact_P25 = 1/( - dt /(R* gain_1650 *e_ch));
+  double con_fact_P25 = -0.037;
+
+
+
+  TString NSigmas = "4.0";
+  std::vector<std::vector<TString>> path_store;
+
+  
+  
+  std::vector<double> abs_gain_10ppm;
+  std::vector<double> pen_mesh_10ppm = {  -400, -300, -200, -100,0, 100,150, 200, 300, 400, 500, 600,900 };
+ 
+  /*
+  std::vector<double> temp_mesh_10ppm = {   19 , 19.3 , 21.4 , 19.9 , 19.2 , 19.7 , 20.1 , 20.2 , 21.7 , 22.8 , 21.2};
+  std::vector<double> o2_mesh_10ppm = { 5.9 , 5.9 , 5.9 , 5.8 , 5.8 , 5.7 , 5.7 , 5.7 , 5.8 , 5.8 , 5.8};
+  std::vector<double> h2o_mesh_10ppm = { 40.1 , 40.5 , 42.5 , 38.9 , 51.8 , 54.2 , 61.8 , 60.8 , 59.6 , 59.6 , 47.6};
+  */
+
+  /*  std::vector<double> temp_mesh_10ppm = {19 , 19.3 , 21.4 , 19.9 , 19.2 , 19 , 19.7 , 17.6 , 18.1 , 20.1 , 20.2 , 21.7 , 22.8 , 21.2 , 20.1}; 
+  std::vector<double> o2_mesh_10ppm = {5.9 , 5.9 , 5.9 , 5.8 , 5.8 , 6.5 , 5.7 , 6 , 6.4 , 5.7 , 5.7 , 5.8 , 5.8 , 5.8 , 8.5};
+  std::vector<double> h2o_mesh_10ppm = {40.1 , 40.5 , 42.5 , 38.9 , 51.9 , 42.3 , 54.2 , 38.5 , 42.4 , 61.8 , 60.8 , 59.6 , 59.6 , 47.6 , 54.6};
+  */
+  std::vector<double> temp_mesh_10ppm = {19 , 19.3 , 21.4 , 19.9 ,  19 ,  17.6 , 18.1 , 20.1 , 20.2 , 21.7 , 22.8 , 21.2 , 20.1}; 
+  std::vector<double> o2_mesh_10ppm = {5.9 , 5.9 , 5.9 , 5.8 ,  6.5 ,  6 , 6.4 , 5.7 , 5.7 , 5.8 , 5.8 , 5.8 , 8.5};
+  std::vector<double> h2o_mesh_10ppm = {40.1 , 40.5 , 42.5 , 38.9 ,  42.3 ,  38.5 , 42.4 , 61.8 , 60.8 , 59.6 , 59.6 , 47.6 , 54.6};
+
+
+  std::vector<double> sparks (o2_mesh_10ppm.size(), 0);
+  std::vector<double> sparks_y_err;
+  
+  for (int i(0); i< sparks.size(); i++){
+    sparks_y_err.push_back(TMath::Sqrt(sparks.at(i)));
+  }
+  
+  std::vector<double> E_N_mesh_10ppm;
+  
+  
+  
+  
+
+  std::vector<TString> evt_num;
+  
+  int ds_10ppm = pen_mesh_10ppm.size(); // number of data sets taken at p1 
+ 
+
+  std::vector<double> temp_x_err;
+  std::vector<double> temp_y_err;
+  std::vector<double> h2O_y_err;
+  std::vector<double> O2_y_err;
+  for (int i(0); i < temp_mesh_10ppm.size(); i++ ){
+
+    temp_x_err.push_back(0);
+    O2_y_err.push_back(0.2);
+    h2O_y_err.push_back(1);
+}
+
+
+ // neg scan  files
+  /*
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg700_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg600_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+  */
+
+  /*  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMeshNeg500_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+  */
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMeshNeg400_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMeshNeg300_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMeshNeg200_TPC1650_p2_0/");
+  evt_num.push_back("4500");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMeshNeg100_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+  /*
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh0_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+  */
+  
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh0_TPC1650_p2_0_ii/");
+  evt_num.push_back("5000");
+  /*
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh100_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+  */
+  
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh100_TPC1650_p2_0_ii/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh150_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh200_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh300_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh400_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh500_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh600_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh900_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+  /*
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh700_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+  */
+   
+ /*
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg400_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg300_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg200_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMeshNeg100_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh0_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+ 
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh100_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh200_TPC1650_p2_0/");
+  evt_num.push_back("4000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh300_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+  
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh400_TPC1650_p2_0/");
+  evt_num.push_back("5000");  
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh500_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+  
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh600_TPC1650_p2_0/");
+  evt_num.push_back("4200");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh700_TPC1650_p2_0/");
+  evt_num.push_back("5000");
+
+  path_store.push_back({});
+  path_store.back().push_back("/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh800_TPC1650_p2_0/");
+  evt_num.push_back("5000"); 
+  
+    */
+
+  
+  
+  std::vector<std::vector<TFile*> > file_store (path_store.size(),std::vector<TFile*>(0));  
+
+  std::vector<std::vector<double> > HowManySignalEvt_ind(path_store.size(),std::vector<double>(0));
+  std::vector<std::vector<double> > HowManyEmptyEvt_ind(path_store.size(),std::vector<double>(0));
+  std::vector<std::vector<double> > HowManySparkEvt_ind(path_store.size(),std::vector<double>(0));
+
+
+  std::vector<double> HowManySignalEvt(path_store.size(),0);
+  std::vector<double> HowManyEmptyEvt(path_store.size(),0);
+  std::vector<double> HowManySparkEvt(path_store.size(),0);
+
+
+
+  std::vector<std::vector<TH1D*> > hWFsumFlat_ind_st(path_store.size(),std::vector<TH1D*>(0));
+  std::vector<std::vector<TH1D*> > hWFsumRaw_st(path_store.size(),std::vector<TH1D*>(0));
+  std::vector<std::vector<TH1D*> > hWFsum_Ratio_st(path_store.size(),std::vector<TH1D*>(0));
+
+
+  std::vector<int> color_st;
+  
+  gStyle->SetPalette(kCividis);
+  gStyle->SetPalette(kAlpine);
+  gStyle->SetPalette(kBlueRedYellow);
+  //gStyle->SetPalette(kGistEarth);
+  //gStyle->SetPalette(kBrownCyan);
+  //gStyle->SetPalette(kAtlantic);
+  //gStyle->SetPalette(kLightTemperature);
+  auto cols = TColor::GetPalette();
+  //cout << "cols size: " << cols.size() << endl;
+  //for (int i(0); i < path_store.size(); i++){
+  // color_st.push_back(cols.At(i*17));
+  // // cout << cols.At(i) << endl;
+  //}
+  color_st.push_back(30);// 4 = blue
+  color_st.push_back(12);// 4 = blue
+  color_st.push_back(17);// 4 = blue
+  color_st.push_back(4); // 4 = blue
+  color_st.push_back(2); // 2 = red
+
+  color_st.push_back(1); // 1 = black
+  color_st.push_back(7); // 7 = cyan
+  color_st.push_back(6); //6 = magenta
+  color_st.push_back(48);// 48 = rose
+  color_st.push_back(12);// 48 = rose
+  color_st.push_back(52);// 48 = rose
+  color_st.push_back(14);// 48 = rose
+  color_st.push_back(21);// 48 = rose
+  color_st.push_back(27);// 48 = rose
+  color_st.push_back(38);// 48 = rose
+  color_st.push_back(39);// 48 = rose
+  color_st.push_back(40);// 48 = rose
+  color_st.push_back(41);// 48 = rose
+  color_st.push_back(42);// 48 = rose
+  color_st.push_back(1); // 1 = black
+  color_st.push_back(7); // 7 = cyan
+  color_st.push_back(6); //6 = magenta
+  color_st.push_back(48);// 48 = rose
+  color_st.push_back(12);// 48 = rose
+  color_st.push_back(52);// 48 = rose
+  color_st.push_back(14);// 48 = rose
+  color_st.push_back(21);// 48 = rose
+  color_st.push_back(27);// 48 = rose
+  color_st.push_back(38);// 48 = rose
+  color_st.push_back(39);// 48 = rose
+  color_st.push_back(40);// 48 = rose
+  color_st.push_back(41);// 48 = rose
+  color_st.push_back(42);// 48 = rose
+  color_st.push_back(1); // 1 = black
+  color_st.push_back(7); // 7 = cyan
+  color_st.push_back(6); //6 = magenta
+  color_st.push_back(48);// 48 = rose
+  color_st.push_back(12);// 48 = rose
+  color_st.push_back(52);// 48 = rose
+  color_st.push_back(14);// 48 = rose
+  color_st.push_back(21);// 48 = rose
+  color_st.push_back(27);// 48 = rose
+  color_st.push_back(38);// 48 = rose
+  
+  color_st.push_back(14);// 48 = rose
+  color_st.push_back(21);// 48 = rose
+  color_st.push_back(27);// 48 = rose
+  color_st.push_back(38);// 48 = rose
+ 
+
+  cout << " debug " << path_store.size() << endl;
+   
+  for (int i(0); i < path_store.size(); i++){
+    for (int j(0); j < path_store.at(i).size(); j++ ){
+
+      //      file_store[i].push_back(TFile::Open(path_store.at(i).at(j)+"WF_output_" +evt_num.at(i) + "_"+NSigmas+"RMS_intga_550.root"));      
+      file_store[i].push_back(TFile::Open(path_store.at(i).at(j)+"WF_output_" +evt_num.at(i) + "_"+NSigmas+"RMS.root"));      
+      cout << i << endl;
+      
+      auto tree = file_store.at(i).at(j)->Get<TTree>("T");
+      hWFsumFlat_ind_st[i].push_back((TH1D*)file_store.at(i).at(j)->Get("hWFsum_FlatNorm"));
+      hWFsumRaw_st[i].push_back((TH1D*)file_store.at(i).at(j)->Get("hWFsumRaw"));
+
+      HowManySignalEvt_ind[i].push_back(tree->GetBranch("Signal")->GetEntries());
+      HowManyEmptyEvt_ind[i].push_back(tree->GetBranch("Empty")->GetEntries());
+      HowManySparkEvt_ind[i].push_back(tree->GetBranch("Spark")->GetEntries());
+      
+    }
+  }
+  
+  
+  for (int i(0); i<HowManySignalEvt_ind.size(); i++){
+    for (int j(0); j<HowManySignalEvt_ind.at(i).size(); j++){
+      HowManySignalEvt[i]+=HowManySignalEvt_ind.at(i).at(j);
+      HowManyEmptyEvt[i]+=HowManyEmptyEvt_ind.at(i).at(j);
+      HowManySparkEvt[i]+=HowManySparkEvt_ind.at(i).at(j);
+    }
+  }
+  
+  
+  //------------------------------------------------------
+  //--------Obtain WF SUM --------------
+  //------------------------------------------------------
+ 
+  std::vector<double> norm_st;
+  std::vector<TH1D*> hWFsumFlat_st;
+  
+  for (int i(0); i< path_store.size(); i++){
+    // TH1D* h1 = new TH1D("","",100000, -0.8e-3,0.2e-3);
+    TH1D* h1 = hWFsumFlat_ind_st.at(i).at(0);
+    double norm_dummy(0);
+    for (int j(0); j< hWFsumFlat_ind_st.at(i).at(0)->GetNbinsX(); j++){
+      double dummy =0;
+      for (int z(0); z < path_store.at(i).size(); z++){
+        dummy +=  hWFsumFlat_ind_st.at(i).at(z)->GetBinContent(j);
+	//if (j == 0) norm_dummy +=HowManySignalEvt_ind.at(i).at(z) + HowManyEmptyEvt_ind.at(i).at(z);
+	if (j == 0) norm_dummy += HowManySignalEvt_ind.at(i).at(z) ;
+      }
+      //cout << " norm_dummy " << norm_dummy << endl;
+      h1->SetBinContent(j,dummy/norm_dummy/con_fact_P25);//norm_dummy*con_fact_P24
+      // norm_store.push_back(norm_dummy);  
+    }
+    
+    h1->SetLineColor(color_st.at(i));
+    h1->SetLineWidth(3);
+    hWFsumFlat_st.push_back(h1);
+   
+  }
+
+
+  //-----------------------------------------------------------------
+  //------------------------!! Obtain the SUM OF THE WF SUM !!----------
+  // ----------------------------------------------------------------
+
+
+  std::vector<double> ElGainTh(file_store.size(),0);
+  std::vector<double> ElGainMonteiroMeas;
+  std::vector<double> E_N_Monteiro;
+  std::vector<double> RelElGainMonteiro_Meas;
+  std::vector<double> E_N(file_store.size(),0);
+  std::vector<double> V_PEN(file_store.size(),0);
+  std::vector<double> RelElGainTh (file_store.size(),0);
+  std::vector<double> RelElGainMeas_a (file_store.size(),0);
+  std::vector<double> RelElGainMeas_a_ELcomp (file_store.size(),0);
+  std::vector<double> RelElGainMeas_ab (file_store.size(),0);
+  std::vector<double> RelElGainMeas_ab_ELcomp (file_store.size(),0);
+  std::vector<double> AbsEL_Only (file_store.size(),0);
+  std::vector<double> AbsEL_Only_ab (file_store.size(),0);
+  std::vector<double> Err_AbsEL_Only (file_store.size(),0);
+
+  int ThGEM_comp = 0;
+
+
+  std::vector <double> SumOfWFSum_a(file_store.size(), 0);
+  std::vector <double> SumOfWFSum_ab(file_store.size(), 0);
+  //
+  //
+  //
+  double ThGemContribution_a(0), ThGemContribution_ab(0);
+  int ThGEMContrCount = 6;
+ 
+  for (int i(0); i < file_store.size(); i++){
+    // cout << "size " <<  hWFsumFlat_st.at(i)->GetNbinsX()<< endl;
+    for (int j(0); j < hWFsumFlat_st.at(i)->GetNbinsX(); j++){
+      if ( -0.06e-3 < hWFsumFlat_st.at(i)->GetBinCenter(j) && hWFsumFlat_st.at(i)->GetBinCenter(j) <-0.02e-3  ) {
+	SumOfWFSum_a.at(i) += hWFsumFlat_st.at(i)->GetBinContent(j);
+      }
+      
+      if ( -0.02e-3 < hWFsumFlat_st.at(i)->GetBinCenter(j) && hWFsumFlat_st.at(i)->GetBinCenter(j) <0.02e-3  ){
+	SumOfWFSum_ab.at(i) += hWFsumFlat_st.at(i)->GetBinContent(j);
+      }
+    }
+    
+
+
+
+    //
+  }
+  
+
+   
+
+
+    //-----------------------------------------------------------------
+    //------------------------Treating Errors--------------------------
+    // ----------------------------------------------------------------
+  
+    
+    //producing errors for the abs gain: the mean of the exponential distribution/ sqrt(NEntries)
+  
+  std::vector<std::vector<double>> intg_a_store;
+  std::vector<int> ct(path_store.size(), 0);
+  
+  for (int i(0); i < path_store.size(); i++){//number of voltages on the mesh
+    intg_a_store.push_back({});
+    for (int j(0); j < path_store.at(i).size(); j++ ){// number of datasets per each mesh voltage
+      Double_t intg_a(0);
+	int Signal(0);
+	auto tree = file_store.at(i).at(j)->Get<TTree>("T");
+	tree->SetBranchAddress("Signal",&Signal);
+	tree->SetBranchAddress("intg_a",&intg_a);
+	tree->SetBranchStatus("*",0);
+	tree->SetBranchStatus("intg_a",1);
+	tree->SetBranchStatus("Signal",1);
+	
+	for (int z(0);  z< tree->GetBranch("Signal")->GetEntries(); z++){
+	  tree->GetEntry(z);
+	  tree->GetEntry(Signal);
+	  intg_a_store.at(i).push_back(intg_a*phot_to_volt/(-con_fact_P25));
+	  ct.at(i) +=1;
+	}
+      }
+    }
+    
+    std::vector<double> mean;
+    std::vector<double> STD;
+    std::vector<double> NEntries;
+    
+    
+    for (int i (0); i < intg_a_store.size(); i++){
+      auto stats =   GetMean_STD_NEntries(intg_a_store.at(i));
+      mean.push_back(stats.at(0));
+      STD.push_back(stats.at(1));
+      NEntries.push_back(stats.at(2));
+    }
+    
+    std::vector<double>err_IntgWFSum_a(file_store.size(),0);
+    std::vector<double>err_IntgWFSum_ab(file_store.size(),0);
+    std::vector<double>err_Ratio_a;
+    std::vector<double>err_Ratio_ab;
+
+    std::vector<double>empty_3(file_store.size(),0);
+    
+    for (int i(0); i < SumOfWFSum_a.size(); i++){
+      err_IntgWFSum_a[i] = STD.at(i)/TMath::Sqrt(NEntries.at(i));
+      cout << "STD.at(i) " << STD.at(i) << endl;    
+      err_IntgWFSum_ab[i] = TMath::Sqrt(SumOfWFSum_ab[i]);
+    }
+    
+ 
+
+  
+  //-----------------------------------------------------------------
+  //-----------------------------------------------------------------
+  //------------------------Plots and Figure---------------------
+  //----------------------------------------------------------------
+  //-----------------------------------------------------------------
+  
+  
+  
+  //-----------------------------------------------------------------
+  //-------------------Preparing data for the WF Sums----------------
+  // ----------------------------------------------------------------
+
+  // Re drawing the waveform sum histograms with x axis from -20 to 80
+
+  
+
+  for (int i = 0; i <  hWFsumFlat_st.size(); i++){
+    hWFsumFlat_st.at(i)->Rebin(rebin_no);
+    TH1D * h_dummy = new TH1D("","", hWFsumFlat_st.at(i)->GetNbinsX(), -20,80);
+    for (int j(0); j < hWFsumFlat_st.at(i)->GetNbinsX(); j++ ){
+      h_dummy->SetBinContent(j,hWFsumFlat_st.at(i)->GetBinContent(j));
+    }
+    h_dummy->GetYaxis()->SetTitleOffset(-.1);
+    h_dummy->SetLineColor(color_st.at(i));
+    h_dummy->SetLineWidth(3);
+    hsWFsum->Add(h_dummy);
+  }
+  
+  auto leg_WFsum = new TLegend(0.1,0.7,0.48,0.9);
+  for (int i(0); i < hWFsumFlat_st.size() ; i++){
+    string bla = Form("set %d", i+1);
+    leg_WFsum->AddEntry(hWFsumFlat_st.at(i), bla.c_str() ,"l");//800
+}
+
+
+  //-----------
+  //Drawing waveform sums
+  //-----------
+  
+  
+  TCanvas *cWFsum = new TCanvas("cWFsum", " sum of waveform ", 800, 600);  
+  hsWFsum->Draw("nostack");
+  leg_WFsum->Draw("same");  
+  std::vector<double>empty_4(file_store.size(),0);
+
+
+
+
+
+  //----------------------------------
+  //----Preparing data for abs gain---
+  //----------------------------------
+ 
+  for (int i(0); i < ds_10ppm; i++){
+    abs_gain_10ppm.push_back(SumOfWFSum_a.at(i)); 
+    E_N_mesh_10ppm.push_back(GetE_N(pen_mesh_10ppm.at(i), 0.26, 2e5));
+    cout << " at file " << i << " the number of signal: " << HowManySignalEvt[i] << ", mesh voltage " << pen_mesh_10ppm.at(i)  << " , reduced field: " << E_N_mesh_10ppm[i]<< endl; 
+  }
+  
+
+  
+
+
+  //----------------
+  //Plotting the absolute gain vs E/N
+  //----------------
+
+
+  TGraphErrors *gr_10ppm = new TGraphErrors(abs_gain_10ppm.size(), &E_N_mesh_10ppm[0], &abs_gain_10ppm[0], &empty_4[0],&err_IntgWFSum_a[0]);
+  
+  gr_10ppm->SetTitle(";EL gap E/N (Td); Photon number per event");
+  gr_10ppm->GetYaxis()->SetTitleOffset(0.6);
+  gr_10ppm->SetLineColor(kBlack);
+  gr_10ppm->SetLineWidth(2);
+  gr_10ppm->SetFillColor(kBlack);
+  gr_10ppm->SetMarkerStyle(20);
+
+
+  TGraphErrors *gr_10ppm_V = new TGraphErrors(abs_gain_10ppm.size(), &pen_mesh_10ppm[0], &abs_gain_10ppm[0],&empty_4[0],&err_IntgWFSum_a[0]);
+  
+
+
+  TGraphErrors *gr_10ppm_temp = new TGraphErrors(temp_mesh_10ppm.size(), &E_N_mesh_10ppm[0], &temp_mesh_10ppm[0],&temp_x_err[0],&temp_y_err[0]);
+  TGraphErrors *gr_10ppm_h2o = new TGraphErrors(h2o_mesh_10ppm.size(), &E_N_mesh_10ppm[0], &h2o_mesh_10ppm[0],&temp_x_err[0],&h2O_y_err[0]);
+  TGraphErrors *gr_10ppm_o2 = new TGraphErrors(h2o_mesh_10ppm.size(), &E_N_mesh_10ppm[0], &o2_mesh_10ppm[0],&temp_x_err[0],&O2_y_err[0]);
+ 
+  TGraphErrors *gr_10ppm_sparks = new TGraphErrors(sparks.size(), &E_N_mesh_10ppm[0], &sparks[0],&temp_x_err[0],&sparks_y_err[0]);
+
+
+
+  TGraphErrors *gr_10ppm_temp_V = new TGraphErrors(temp_mesh_10ppm.size(), &pen_mesh_10ppm[0], &temp_mesh_10ppm[0],&temp_x_err[0],&temp_y_err[0]);
+  TGraphErrors *gr_10ppm_h2o_V = new TGraphErrors(h2o_mesh_10ppm.size(), &pen_mesh_10ppm[0], &h2o_mesh_10ppm[0],&temp_x_err[0],&h2O_y_err[0]);
+  TGraphErrors *gr_10ppm_o2_V = new TGraphErrors(h2o_mesh_10ppm.size(), &pen_mesh_10ppm[0], &o2_mesh_10ppm[0],&temp_x_err[0],&O2_y_err[0]);
+ 
+  TGraphErrors *gr_10ppm_sparks_V = new TGraphErrors(sparks.size(), &pen_mesh_10ppm[0], &sparks[0],&temp_x_err[0],&sparks_y_err[0]);
+
+  gr_10ppm_temp ->GetYaxis()->SetTitleOffset(0.6);
+  gr_10ppm_temp ->SetLineColor(kMagenta-2);
+  gr_10ppm_temp ->SetLineWidth(2);
+  gr_10ppm_temp ->SetFillColor(kBlack);
+  gr_10ppm_temp ->SetMarkerStyle(20);
+
+
+  gr_10ppm_h2o ->GetYaxis()->SetTitleOffset(0.6);
+  gr_10ppm_h2o ->SetLineColor(kTeal-7);
+  gr_10ppm_h2o ->SetLineWidth(2);
+  gr_10ppm_h2o ->SetFillColor(kMagenta-2);
+  gr_10ppm_h2o ->SetMarkerStyle(20);
+
+  gr_10ppm_o2 ->GetYaxis()->SetTitleOffset(0.6);
+  gr_10ppm_o2 ->SetLineColor(kMagenta - 2);
+  gr_10ppm_o2 ->SetLineWidth(2);
+  gr_10ppm_o2 ->SetFillColor(kBlack);
+  gr_10ppm_o2 ->SetMarkerStyle(20);
+  
+  gr_10ppm_V ->GetYaxis()->SetTitleOffset(0.6);
+  gr_10ppm_V ->SetLineColor(42);
+  gr_10ppm_V ->SetLineWidth(2);
+  gr_10ppm_V ->SetFillColor(kBlack);
+  gr_10ppm_V ->SetMarkerStyle(20);
+
+
+  gr_10ppm_sparks ->GetYaxis()->SetTitleOffset(0.6);
+  gr_10ppm_sparks ->SetLineColor(kRed);
+  gr_10ppm_sparks ->SetLineWidth(2);
+  gr_10ppm_sparks ->SetFillColor(kBlack);
+  gr_10ppm_sparks ->SetMarkerStyle(20);
+
+  
+  TMultiGraph *mgr_all_10ppm = new TMultiGraph();
+  mgr_all_10ppm->SetTitle("; EL gap E/N (Td); Pollutant concentration (ppm)");
+  //mgr_all_10ppm-> Add(gr_10ppm_V, "ALP");
+  //mgr_all_10ppm->Add(gr_10ppm,"ALP");
+  //mgr-> Add(gr_p1_2,"ALP");
+  //mgr_all_10ppm-> Add(gr_10ppm_temp, "ALP");
+  mgr_all_10ppm-> Add(gr_10ppm_h2o, "ALP");
+  mgr_all_10ppm-> Add(gr_10ppm_o2, "ALP");
+  //mgr_all_10ppm-> Add(gr_10ppm_sparks, "ALP");
+ 
+  auto leg_all_10ppm = new TLegend(0.1,0.7,0.48,0.9);
+  //leg_all_10ppm->AddEntry(gr_10ppm_V, "Photon yield", "l");
+  //leg_all_10ppm->AddEntry(gr_10ppm_temp, " Temp (C#circ)", "l");
+  leg_all_10ppm->AddEntry(gr_10ppm_h2o, "H_{2}O", "l");
+  leg_all_10ppm->AddEntry(gr_10ppm_o2, "O_{2}", "l");
+  //leg_all_10ppm->AddEntry(gr_10ppm_sparks, "Sparks (/hour)", "l");
+  
+  
+  //mgr-> Add(gr_p1_5,"ALP");
+  TCanvas *c_10ppm = new TCanvas("c_10ppm","", 800, 600);
+  mgr_all_10ppm->Draw("ALP");
+  leg_all_10ppm->Draw();
+
+  TCanvas *c_Pht = new TCanvas("c_Pht","", 800, 600);
+  gr_10ppm->Draw("ALP");
+  gr_10ppm->GetYaxis()->SetTitleOffset(0.9);  
+  //leg_all_10ppm->Draw();
+  
+  /*
+  TGraphErrors *gr_10ppm_V = new TGraphErrors(abs_gain_10ppm.size(), &pen_mesh_10ppm[0], &abs_gain_10ppm[0],&empty_4[0],&err_IntgWFSum_a[0]);
+  TGraphErrors *gr_10ppm_temp = new TGraphErrors(temp_mesh_10ppm.size(), &E_N_mesh_10ppm[0], &temp_mesh_10ppm[0],&temp_x_err[0],&temp_y_err[0]);
+  TGraphErrors *gr_10ppm_h2o = new TGraphErrors(h2o_mesh_10ppm.size(), &E_N_mesh_10ppm[0], &h2o_mesh_10ppm[0],&temp_x_err[0],&h2O_y_err[0]);
+  TGraphErrors *gr_10ppm_o2 = new TGraphErrors(h2o_mesh_10ppm.size(), &E_N_mesh_10ppm[0], &o2_mesh_10ppm[0],&temp_x_err[0],&O2_y_err[0]);
+  */
+
+  VecForPyth(E_N_mesh_10ppm);
+  VecForPyth(abs_gain_10ppm);
+  VecForPyth(err_IntgWFSum_a);
+  
+  VecForPyth(h2o_mesh_10ppm);
+  VecForPyth(h2O_y_err);
+  
+  VecForPyth(o2_mesh_10ppm);
+  VecForPyth(O2_y_err);
+  
+
+  // fill the relative yields
+  // for (int i(0); i < ds_10_11_12.size(); i++){
+  //   rel_10_11_12.push_back(ds_10_11_12.at(i)/ds_10_11_12.at(norm_term));
+  //   rel_13_14_15.push_back(ds_13_14_15.at(i)/ds_13_14_15.at(norm_term));
+  //   rel_Config_18.push_back(ds_Config_18.at(i)/ds_Config_18.at(norm_term));
+  // }
+
+ 
+  // g_Abs->GetYaxis()->SetTitleOffset(0.6);
+  // g_Abs ->SetLineColor(46);
+  // g_Abs ->SetLineWidth(2);
+  // g_Abs->SetFillColor(kBlack);
+  // g_Abs ->SetMarkerStyle(20);
+
+  // g_Abs_2->GetYaxis()->SetTitleOffset(0.6);
+  // g_Abs_2 ->SetLineColor(30);
+  // g_Abs_2 ->SetLineWidth(2);
+  // g_Abs_2->SetFillColor(kBlack);
+  // g_Abs_2 ->SetMarkerStyle(20);
+
+
+   cout << "Pressure 1 bar:"<<endl;
+   for (int i(0); i< pen_mesh_10ppm.size(); i++){
+     cout << "  voltage = " << pen_mesh_10ppm.at(i) <<" V, E/N = "<< E_N_mesh_10ppm.at(i) << " Td" << endl;
+   }
+
+
+
+  
+  
+   cout << "  debug 1 " << endl;
+   gPad->Modified();
+   gPad->Update();
+   
+  
+}

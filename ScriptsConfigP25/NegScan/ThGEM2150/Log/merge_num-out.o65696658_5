@@ -1,0 +1,33 @@
+
+Welcome to rootlogon.C
+For approved plots use: gROOT->SetStyle("T2K");
+It is on by default now - to disable it comment out the last line of this macro
+
+
+Processing GeneralAna_v8.C("C4500_LSF2450_ThGUp2150_ThGDnGND_PMeshNeg500_TPC1650_p2_0")...
+ Directory exists 
+DEBUG 
+DEBUG 
+
+Welcome to rootlogon.C
+For approved plots use: gROOT->SetStyle("T2K");
+It is on by default now - to disable it comment out the last line of this macro
+
+
+Processing GeneralAna_v8.C("C4500_LSF2450_ThGUp2150_ThGDnGND_PMeshNeg400_TPC1650_p2_0")...
+ Directory exists 
+DEBUG 
+DEBUG 
+Number of entries per file = 100000
+Index of scintillator minimum = 19994
+
+Welcome to rootlogon.C
+For approved plots use: gROOT->SetStyle("T2K");
+It is on by default now - to disable it comment out the last line of this macro
+
+
+Processing GeneralAna_v8.C("C4500_LSF2450_ThGUp2150_ThGDnGND_PMeshNeg300_TPC1650_p2_0")...
+DEBUG 
+DEBUG 
+Number of entries per file = 100000
+Index of scintillator minimum = 19999

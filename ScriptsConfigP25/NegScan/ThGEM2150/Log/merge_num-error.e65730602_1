@@ -1,0 +1,153 @@
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002b7ec59d960c in waitpid () from /lib64/libc.so.6
+#1  0x00002b7ec5956f62 in do_system () from /lib64/libc.so.6
+#2  0x00002b7ec5029c4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002b7ec5027255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002b7ec5983180 in fread () from /lib64/libc.so.6
+#6  0x00002b7eca7ad7f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x0000000000000050 in ?? ()
+#9  0x00002b7eca652fa8 in vtable for TClingDeclInfo () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#10 0x00002b7ede3b7660 in _GLOBAL_OFFSET_TABLE_ () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libTree.so
+#11 0x0000000005029f18 in ?? ()
+#12 0x0000000005029f58 in ?? ()
+#13 0x0000000005029fb0 in ?? ()
+#14 0x0000000005029fc8 in ?? ()
+#15 0x0000000005029dc0 in ?? ()
+#16 0x00002b7ec4af7e9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#17 0x00002b7ec4aff9ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#18 0x00007fff2083f538 in ?? ()
+#19 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002b7ec5983180 in fread () from /lib64/libc.so.6
+#6  0x00002b7eca7ad7f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x0000000000000050 in ?? ()
+#9  0x00002b7eca652fa8 in vtable for TClingDeclInfo () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#10 0x00002b7ede3b7660 in _GLOBAL_OFFSET_TABLE_ () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libTree.so
+#11 0x0000000005029f18 in ?? ()
+#12 0x0000000005029f58 in ?? ()
+#13 0x0000000005029fb0 in ?? ()
+#14 0x0000000005029fc8 in ?? ()
+#15 0x0000000005029dc0 in ?? ()
+#16 0x00002b7ec4af7e9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#17 0x00002b7ec4aff9ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#18 0x00007fff2083f538 in ?? ()
+#19 0x0000000000000000 in ?? ()
+===========================================================
+
+
+SysError in <TFile::TFile>: could not delete /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh100_TPC1650_p2_0/WF_output_5000_4.0RMS.root (errno: 2) No such file or directory
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002b0da575e60c in waitpid () from /lib64/libc.so.6
+#1  0x00002b0da56dbf62 in do_system () from /lib64/libc.so.6
+#2  0x00002b0da4daec4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002b0da4dac255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002b0da5708180 in fread () from /lib64/libc.so.6
+#6  0x00002b0daa5327f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x0000000000000050 in ?? ()
+#9  0x00002b0daa3d7fa8 in vtable for TClingDeclInfo () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#10 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002b0da5708180 in fread () from /lib64/libc.so.6
+#6  0x00002b0daa5327f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x0000000000000050 in ?? ()
+#9  0x00002b0daa3d7fa8 in vtable for TClingDeclInfo () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCling.so
+#10 0x0000000000000000 in ?? ()
+===========================================================
+
+
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002b048de7e60c in waitpid () from /lib64/libc.so.6
+#1  0x00002b048ddfbf62 in do_system () from /lib64/libc.so.6
+#2  0x00002b048d4cec4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002b048d4cc255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002b048de28180 in fread () from /lib64/libc.so.6
+#6  0x00002b0492c527f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x00002b04a685c660 in _GLOBAL_OFFSET_TABLE_ () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libTree.so
+#9  0x00000000041daa78 in ?? ()
+#10 0x00000000041daab8 in ?? ()
+#11 0x00000000041dab10 in ?? ()
+#12 0x00000000041dab28 in ?? ()
+#13 0x00000000041da920 in ?? ()
+#14 0x00002b048cf9ce9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#15 0x00002b048cfa49ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#16 0x00007ffc578f4488 in ?? ()
+#17 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002b048de28180 in fread () from /lib64/libc.so.6
+#6  0x00002b0492c527f3 in ?? ()
+#7  0x000000770000006e in ?? ()
+#8  0x00002b04a685c660 in _GLOBAL_OFFSET_TABLE_ () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libTree.so
+#9  0x00000000041daa78 in ?? ()
+#10 0x00000000041daab8 in ?? ()
+#11 0x00000000041dab10 in ?? ()
+#12 0x00000000041dab28 in ?? ()
+#13 0x00000000041da920 in ?? ()
+#14 0x00002b048cf9ce9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#15 0x00002b048cfa49ea in _dl_runtime_resolve_xsave () from /lib64/ld-linux-x86-64.so.2
+#16 0x00007ffc578f4488 in ?? ()
+#17 0x0000000000000000 in ?? ()
+===========================================================
+
+
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=65730603.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: cpu182: task 0: Out Of Memory
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=65730603.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

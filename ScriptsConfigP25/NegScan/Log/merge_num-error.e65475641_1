@@ -1,0 +1,4 @@
+SysError in <TFile::TFile>: could not delete /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh0_TPC1650_p2_0/WF_output_5000_4.0RMS.root (errno: 2) No such file or directory
+SysError in <TFile::TFile>: could not delete /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/C4600_LSF2550_ThGUp2250_ThGDnGND_PMesh200_TPC1650_p2_0/WF_output_5000_4.0RMS.root (errno: 2) No such file or directory
+slurmstepd: error: *** JOB 65475659 ON cpu028 CANCELLED AT 2023-02-16T15:20:56 ***
+slurmstepd: error: Detected 2 oom-kill event(s) in StepId=65475659.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

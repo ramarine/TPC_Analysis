@@ -1,0 +1,151 @@
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002b68d2ba760c in waitpid () from /lib64/libc.so.6
+#1  0x00002b68d2b24f62 in do_system () from /lib64/libc.so.6
+#2  0x00002b68d21f7c4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002b68d21f5255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002b68d2b51180 in fread () from /lib64/libc.so.6
+#6  0x00002b68d797b7f3 in ?? ()
+#7  0x0000000004b1b968 in ?? ()
+#8  0x0000000004b1b9a8 in ?? ()
+#9  0x0000000004b1ba00 in ?? ()
+#10 0x0000000004b1ba18 in ?? ()
+#11 0x0000000004b1b810 in ?? ()
+#12 0x00002b68d1cc5e9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002b68d1ccdaaa in _dl_runtime_resolve_xsavec () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007ffdd008bc98 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002b68d2b51180 in fread () from /lib64/libc.so.6
+#6  0x00002b68d797b7f3 in ?? ()
+#7  0x0000000004b1b968 in ?? ()
+#8  0x0000000004b1b9a8 in ?? ()
+#9  0x0000000004b1ba00 in ?? ()
+#10 0x0000000004b1ba18 in ?? ()
+#11 0x0000000004b1b810 in ?? ()
+#12 0x00002b68d1cc5e9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002b68d1ccdaaa in _dl_runtime_resolve_xsavec () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007ffdd008bc98 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+SysError in <TFile::TFile>: could not delete /srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/C4500_LSF2450_ThGUp2150_ThGDnGND_PMesh400_TPC1650_p2_0/WF_output_5000_4.0RMS_intga_550.root (errno: 2) No such file or directory
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002afd16d4060c in waitpid () from /lib64/libc.so.6
+#1  0x00002afd16cbdf62 in do_system () from /lib64/libc.so.6
+#2  0x00002afd16390c4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002afd1638e255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002afd16cea180 in fread () from /lib64/libc.so.6
+#6  0x00002afd1bb147f3 in ?? ()
+#7  0x0000000004316df8 in ?? ()
+#8  0x0000000004316e38 in ?? ()
+#9  0x0000000004316e90 in ?? ()
+#10 0x0000000004316ea8 in ?? ()
+#11 0x0000000004316ca0 in ?? ()
+#12 0x00002afd15e5ee9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002afd15e66aaa in _dl_runtime_resolve_xsavec () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007ffe4479fc58 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002afd16cea180 in fread () from /lib64/libc.so.6
+#6  0x00002afd1bb147f3 in ?? ()
+#7  0x0000000004316df8 in ?? ()
+#8  0x0000000004316e38 in ?? ()
+#9  0x0000000004316e90 in ?? ()
+#10 0x0000000004316ea8 in ?? ()
+#11 0x0000000004316ca0 in ?? ()
+#12 0x00002afd15e5ee9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002afd15e66aaa in _dl_runtime_resolve_xsavec () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007ffe4479fc58 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+
+ *** Break *** segmentation violation
+
+
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002ade1009f60c in waitpid () from /lib64/libc.so.6
+#1  0x00002ade1001cf62 in do_system () from /lib64/libc.so.6
+#2  0x00002ade0f6efc4c in TUnixSystem::StackTrace() () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#3  0x00002ade0f6ed255 in TUnixSystem::DispatchSignals(ESignals) () from /opt/ebsofts/ROOT/6.24.06-foss-2021b/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002ade10049180 in fread () from /lib64/libc.so.6
+#6  0x00002ade14e6e7f3 in ?? ()
+#7  0x00000000044f7148 in ?? ()
+#8  0x00000000044f7188 in ?? ()
+#9  0x00000000044f71e0 in ?? ()
+#10 0x00000000044f71f8 in ?? ()
+#11 0x00000000044f6ff0 in ?? ()
+#12 0x00002ade0f1bde9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002ade0f1c5aaa in _dl_runtime_resolve_xsavec () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007fffa44d7218 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum https://root.cern.ch/forum
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at https://root.cern.ch/bugs Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002ade10049180 in fread () from /lib64/libc.so.6
+#6  0x00002ade14e6e7f3 in ?? ()
+#7  0x00000000044f7148 in ?? ()
+#8  0x00000000044f7188 in ?? ()
+#9  0x00000000044f71e0 in ?? ()
+#10 0x00000000044f71f8 in ?? ()
+#11 0x00000000044f6ff0 in ?? ()
+#12 0x00002ade0f1bde9a in _dl_fixup () from /lib64/ld-linux-x86-64.so.2
+#13 0x00002ade0f1c5aaa in _dl_runtime_resolve_xsavec () from /lib64/ld-linux-x86-64.so.2
+#14 0x00007fffa44d7218 in ?? ()
+#15 0x0000000000000000 in ?? ()
+===========================================================
+
+
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=65696819.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: cpu290: task 0: Out Of Memory
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=65696819.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.
