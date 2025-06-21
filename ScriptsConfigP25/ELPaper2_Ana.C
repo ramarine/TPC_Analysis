@@ -106,7 +106,7 @@ double GetAvgError(std::vector<double> *error_vect = NULL){
 
 
 
-void ThesisAna(){
+void ELPaper2_Ana(){
 
 
   //defining Stacks

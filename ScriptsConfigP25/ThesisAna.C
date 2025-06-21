@@ -128,7 +128,8 @@ void ThesisAna(){
   std::vector<double> abs_gain_p1_0;
   std::vector<double> abs_gain_p1_0_primnorm;
   std::vector<double> abs_gain_p1_0_EL;
-  std::vector<double> pen_mesh_p1_0 = {0.,250., 320,427.,545.,650., 750.};
+  // std::vector<double> pen_mesh_p1_0 = {0.,250., 320,427.,545.,650., 750.};
+  std::vector<double> pen_mesh_p1_0 = {0.,250., 320,427.,545., };
   std::vector<double> E_N_mesh_p1_0;
   
   std::vector<double> abs_gain_p2_0b;
@@ -159,37 +160,46 @@ void ThesisAna(){
   int p2_0_ds = pen_mesh_p2_0.size(); // number of data sets taken at p2_0
   int p1_5_ds = pen_mesh_p1_5.size(); // number of data sets taken at p1                                                                  
 
+  // /home/amarinei/Year1_PhD/TPC/Comissioning/TPC_Ana/LeCroyPMT_Ana/Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh0_TPC1650_p1_0/
+
   path_store.push_back({});
-  path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh0_TPC1650_p1_0/");
+  // path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh0_TPC1650_p1_0/");
+  path_store.back().push_back("/home/amarinei/Year1_PhD/TPC/Comissioning/TPC_Ana/LeCroyPMT_Ana/Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh0_TPC1650_p1_0/");
   evt_num.push_back("5000");
 
   path_store.push_back({});
-  path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh250_TPC1650_p1_0/");
+  // path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh250_TPC1650_p1_0/");
+  path_store.back().push_back("/home/amarinei/Year1_PhD/TPC/Comissioning/TPC_Ana/LeCroyPMT_Ana/Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh250_TPC1650_p1_0/");
   evt_num.push_back("5000");
 
   //  path_store.push_back({});
   // path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3500_LSF1750_ThGUp1450_ThGDnGND_PMesh320_TPC1650_p1_0/");
   
   path_store.push_back({});
-  path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh320_TPC1650_p1_0/");
+  // path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh320_TPC1650_p1_0/");
+  path_store.back().push_back("/home/amarinei/Year1_PhD/TPC/Comissioning/TPC_Ana/LeCroyPMT_Ana/Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh320_TPC1650_p1_0/");
   evt_num.push_back("5000");
 
   path_store.push_back({});
-  path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh427_TPC1650_p1_0/");
+  // path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh427_TPC1650_p1_0/");
+  path_store.back().push_back("/home/amarinei/Year1_PhD/TPC/Comissioning/TPC_Ana/LeCroyPMT_Ana/Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh427_TPC1650_p1_0/");
   evt_num.push_back("5000");
 
 
   path_store.push_back({});
-  path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh545_TPC1650_p1_0/");
+  // path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh545_TPC1650_p1_0/");
+  path_store.back().push_back("/home/amarinei/Year1_PhD/TPC/Comissioning/TPC_Ana/LeCroyPMT_Ana/Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh545_TPC1650_p1_0/");
   evt_num.push_back("5000");
  
-  path_store.push_back({});
-  path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh650_TPC1650_p1_0/");
-  evt_num.push_back("5000");
+  // path_store.push_back({});
+  // // path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh650_TPC1650_p1_0/");
+  // path_store.back().push_back("/home/amarinei/Year1_PhD/TPC/Comissioning/TPC_Ana/LeCroyPMT_Ana/Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh650_TPC1650_p1_0/");
+  // evt_num.push_back("5000");
 
-  path_store.push_back({});
-  path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh750_TPC1650_p1_0/");
-  evt_num.push_back("5000");
+  // path_store.push_back({});
+  // // path_store.back().push_back("../../../Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh750_TPC1650_p1_0/");
+  // path_store.back().push_back("/home/amarinei/Year1_PhD/TPC/Comissioning/TPC_Ana/LeCroyPMT_Ana/Swan_TTrees/Configuration_P25/C3800_LSF1750_ThGUp1450_ThGDnGND_PMesh750_TPC1650_p1_0/");
+  // evt_num.push_back("5000");
 
   // inluce the 2.0 bar with ThGEM2150
 
@@ -921,23 +931,26 @@ void ThesisAna(){
 
   TF1  *f1 = new TF1("f1","(x-[0])*[1]",0,20);
   f1->SetParameters(4,1.2);
-  gr_p1_0->Fit("f1","","", 3.4,12);
+  gr_p1_0->Fit("f1","","", 3.9,8.5);
   gStyle->SetOptFit(1111);
 
   TCanvas * c_AbsGain = new TCanvas("c_AbsGain","", 800,600);
   TMultiGraph *mgr = new TMultiGraph();
   mgr->SetTitle("; EL gap E/N (Td); Photon number per event ");
-  TMultiGraph *mgr_V = new TMultiGraph();
-  mgr_V->SetTitle("; Mesh voltage (V);  Photon number per event ");  
-  mgr-> Add(gr_p1_0, "ALP");
-  mgr-> Add(gr_p2_0b, "ALP");
-  mgr-> Add(gr_p2_0,"ALP");
-  mgr-> Add(gr_p1_5,"ALP");
-  mgr->Draw("ALP");
+  
+  // This it the plot with all the sparks!!!!
 
-  mgr_V-> Add(gr_p1_0_V, "ALP");
-  mgr_V-> Add(gr_p2_0_V,"ALP");
-  mgr_V-> Add(gr_p1_5_V,"ALP");
+  // TMultiGraph *mgr_V = new TMultiGraph();
+  // mgr_V->SetTitle("; Mesh voltage (V);  Photon number per event ");  
+  // mgr-> Add(gr_p1_0, "ALP");
+  // mgr-> Add(gr_p2_0b, "ALP");
+  // mgr-> Add(gr_p2_0,"ALP");
+  // mgr-> Add(gr_p1_5,"ALP");
+  // mgr->Draw("ALP");
+
+  // mgr_V-> Add(gr_p1_0_V, "ALP");
+  // mgr_V-> Add(gr_p2_0_V,"ALP");
+  // mgr_V-> Add(gr_p1_5_V,"ALP");
    
     
   auto leg = new TLegend(0.1,0.7,0.48,0.9);
@@ -949,7 +962,7 @@ void ThesisAna(){
   
 
   TCanvas * c_AbsGain_v = new TCanvas("c_AbsGain_v","", 800,600);
-  mgr_V->Draw("ALP");
+  // mgr_V->Draw("ALP");
   leg->Draw();
   int norm_term =1;
    
@@ -1010,31 +1023,31 @@ void ThesisAna(){
   
   c_AbsGain_EL_sep->Divide(2,2);
   c_AbsGain_EL_sep->cd(1);
-  gr_p1_0_EL->Fit("f1","","", 3.4,12);
-  gr_p1_0_EL->GetFunction("f1")->SetLineWidth(1);
+  // gr_p1_0_EL->Fit("f1","","", 3.9,8.5);
+  // gr_p1_0_EL->GetFunction("f1")->SetLineWidth(1);
   gr_p1_0_EL->GetYaxis()->SetTitleOffset(0.7);
-  gr_p1_0_EL->Draw("ALP");
+  // gr_p1_0_EL->Draw("ALP");
   //leg_EL_p1_0->Draw();
 
   c_AbsGain_EL_sep->cd(2);
-  gr_p1_5_EL->Fit("f1","","", 3.4,9.5);
+  // gr_p1_5_EL->Fit("f1","","", 3.4,9.5);
   gr_p1_5_EL->GetFunction("f1")->SetLineWidth(1);
   gr_p1_5_EL->GetYaxis()->SetTitleOffset(0.7);
-  gr_p1_5_EL->Draw("ALP");
+  // gr_p1_5_EL->Draw("ALP");
   //leg_EL_p1_5->Draw();
 
   c_AbsGain_EL_sep->cd(3);
-  gr_p2_0_EL->Fit("f1","","", 3.4,7.8);
+  // gr_p2_0_EL->Fit("f1","","", 3.4,7.8);
   gr_p2_0_EL->GetFunction("f1")->SetLineWidth(1);
   gr_p2_0_EL->GetYaxis()->SetTitleOffset(0.7);
-  gr_p2_0_EL->Draw("ALP");
+  // gr_p2_0_EL->Draw("ALP");
   //leg_EL_p2_0->Draw();
 
   c_AbsGain_EL_sep->cd(4);
   gr_p2_0b_EL->Fit("f1","","", 3.8,7.5);
   gr_p2_0b_EL->GetFunction("f1")->SetLineWidth(1);
   gr_p2_0b_EL->GetYaxis()->SetTitleOffset(0.7);
-  gr_p2_0b_EL->Draw("ALP");
+  // gr_p2_0b_EL->Draw("ALP");
   //leg_EL_p2_0b->Draw();
 
 
@@ -1043,19 +1056,19 @@ void ThesisAna(){
   // Plots only made for the EL paper //
   //----------------------------------//
   
-  TCanvas * cWFSum_0 = new TCanvas("cWFSum0","", 800,600);
-  TH1D * h_test = new TH1D("","title;Time (#mus); Equivalent number of photons", hWFsumFlat_ind_st[0].at(0)->GetNbinsX(), -20,80);
+  // TCanvas * cWFSum_0 = new TCanvas("cWFSum0","", 800,600);
+  // TH1D * h_test = new TH1D("","title;Time (#mus); Equivalent number of photons", hWFsumFlat_ind_st[0].at(0)->GetNbinsX(), -20,80);
 
-  for (int i(0); i < hWFsumFlat_ind_st[0].at(0)->GetNbinsX(); i++){
-    h_test->SetBinContent(i,hWFsumFlat_ind_st.back().at(0)->GetBinContent(i));
-  }
-  auto leg_SingleWF = new TLegend(0.1,0.7,0.48,0.9);
+  // for (int i(0); i < hWFsumFlat_ind_st[0].at(0)->GetNbinsX(); i++){
+  //   h_test->SetBinContent(i,hWFsumFlat_ind_st.back().at(0)->GetBinContent(i));
+  // }
+  // auto leg_SingleWF = new TLegend(0.1,0.7,0.48,0.9);
   
-  char* title_SingleWF = Form("MESH %.0f V", V_PEN.at(2));
-  leg_SingleWF->AddEntry(h_test,title_SingleWF,"l");//800
-  leg_SingleWF->Draw("same");
+  // char* title_SingleWF = Form("MESH %.0f V", V_PEN.at(2));
+  // leg_SingleWF->AddEntry(h_test,title_SingleWF,"l");//800
+  // leg_SingleWF->Draw("same");
   
-  h_test->Draw();
+  // h_test->Draw();
   
   gPad->Modified();
   gPad->Update();
