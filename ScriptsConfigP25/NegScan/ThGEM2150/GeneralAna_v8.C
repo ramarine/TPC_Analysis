@@ -270,6 +270,7 @@ BinaryComponents read_binary_3(TTree *tree, string path ="/Configuration_18/C350
   int trig_idx;
   char name[100];
   const int nevents = 5000;
+  std::cout << "I am here "<< std::endl;
   //first, read the header.
   //name
   fread(&name, sizeof(char), 100, readfile);
@@ -614,9 +615,10 @@ int GeneralAna_v8(string path = "", const int tot_evt = 5000){
   //string prefix_path_data = "/srv/beegfs/scratch/users/a/amarinei/Swan_Data/Configuration_P25/Batch_1_5/";
   //string path_prefix_AnaResults = "/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_1_5/";
 
+
   string prefix_path_data = "/srv/beegfs/scratch/users/a/amarinei/Swan_Data/Configuration_P25/Batch_2/NegScan/ThGEM2150/";
-  string path_prefix_AnaResults = "/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/";
-  
+  // string path_prefix_AnaResults = "/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/ThGEM2150/";
+  string path_prefix_AnaResults = "/srv/beegfs/scratch/users/a/amarinei/Swan_TTrees/Configuration_P25/Batch_2/NegScan/WFSumInvestigation"; 
   
   TH1D *single = new TH1D("single","single",100,-0.5,0.05);
   TH1D *single_pos = new TH1D("single_pos","Positive ADC plotted in the negative",100,-0.5,0.05);
@@ -665,14 +667,12 @@ int GeneralAna_v8(string path = "", const int tot_evt = 5000){
   const double  dt = bin1.Dt;
   int const  nentries = bin1.Nentries;
 
-
-
   std::vector<double>  time(nentries, 0);
   for (int i(0); i < nentries; i++){
     time[i] = t0 + i*dt;
   }
 
-  const double drift_time = 40e-6;
+  const double drift_time = 75e-6;//This was at 40 initially!!!
   const double extended_drift_time = 80e-6;
 
   int const TrigTimeIdx = bin1.Trig_idx;
